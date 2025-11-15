@@ -1,0 +1,34 @@
+<!-- Code to embed your Netlify app in WordPress -->
+<!-- Create a new WordPress page and switch to the HTML/Code editor, then paste this code -->
+
+<div class="netlify-app-container" style="width:100%; height:100vh; overflow:hidden;">
+  <iframe 
+    src="https://smartjobconnekt.netlify.app" 
+    style="width:100%; height:100%; border:none; overflow:hidden;" 
+    title="SmartJob Application" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- Optional custom CSS to add to your WordPress theme -->
+<style>
+  /* Make the iframe fill the page without padding/margins */
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  /* Hide WordPress header/footer if desired */
+  .site-header, .site-footer, .entry-header {
+    display: none;
+  }
+  
+  /* Full-width container */
+  .entry-content, .post-inner {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+</style>

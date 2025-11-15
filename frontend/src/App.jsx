@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
 import Register from "./pages/register.jsx";
@@ -19,6 +19,10 @@ import { isLoggedIn, getUserRole, getUserFromToken } from "./utils/auth";
 
 // Import styles
 import "./styles/ProfileDropdown.css";
+import "./styles/embedded.css";
+
+// Import WordPress integration utils
+import { isInIframe, updatePageTitle } from "./utils/wordpressIntegration";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -95,13 +99,52 @@ function Navigation() {
   );
 }
 
+// Route change listener for WordPress integration
+function RouteChangeListener() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // When route changes, update the page title in WordPress parent
+    const currentPath = location.pathname;
+    let pageTitle = "SmartJob";
+    
+    // Determine page title based on path
+    if (currentPath === "/") pageTitle = "Home";
+    else if (currentPath === "/jobs") pageTitle = "Jobs";
+    else if (currentPath === "/login") pageTitle = "Login";
+    else if (currentPath === "/register") pageTitle = "Register";
+    else if (currentPath.startsWith("/jobs/")) pageTitle = "Job Details";
+    else if (currentPath === "/employer") pageTitle = "Employer Dashboard";
+    else if (currentPath === "/admin") pageTitle = "Admin Dashboard";
+    
+    // Update document title
+    document.title = pageTitle;
+    
+    // Send title to WordPress parent if we're in an iframe
+    updatePageTitle(pageTitle);
+  }, [location]);
+  
+  return null;
+}
+
 function App() {
   // Check if user is admin
   const isAdmin = isLoggedIn() && getUserRole() === 'Admin';
+  
+  // Check if running in WordPress iframe
+  const embedded = isInIframe();
+  
+  // Add body class if embedded
+  useEffect(() => {
+    if (embedded) {
+      document.body.classList.add('embedded-mode');
+    }
+  }, [embedded]);
 
   return (
     <Router>
-      <div className="app">
+      <RouteChangeListener />
+      <div className={`app ${embedded ? 'embedded-app' : ''}`}>
         <Navigation />
         
         <main className="main-content">

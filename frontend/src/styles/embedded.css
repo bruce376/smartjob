@@ -1,0 +1,55 @@
+/**
+ * Styles for when the application is embedded in WordPress iframe
+ */
+
+/* Optimize for iframe embedding */
+.embedded-app {
+  /* Ensure content fits in iframe without scrollbars when possible */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Remove extra margins/padding when embedded */
+.embedded-app .navbar {
+  padding: 0.5rem 1rem;
+}
+
+/* Optimize footer for embedded mode */
+.embedded-app .footer {
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+/* Adjust spacing for content */
+.embedded-app .main-content {
+  padding-top: 0.5rem;
+}
+
+/* Adjust form layouts for smaller spaces */
+.embedded-app .form-container {
+  max-width: 95%;
+}
+
+/* Hide elements that might be redundant in embedding context */
+.embedded-app .promo-banner,
+.embedded-app .newsletter-signup,
+.embedded-app .redundant-in-iframe {
+  display: none;
+}
+
+/* Responsive adjustments for very small frames */
+@media (max-width: 768px) {
+  .embedded-app .nav-links {
+    padding: 0.25rem;
+  }
+  
+  .embedded-app .footer-container {
+    padding: 1rem;
+  }
+  
+  .embedded-app .footer-top {
+    flex-direction: column;
+  }
+}
