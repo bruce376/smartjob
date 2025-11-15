@@ -1,0 +1,315 @@
+
+:root {
+  --job-primary: #2563eb;
+  --job-primary-dark: #1d4ed8;
+  --job-surface: #ffffff;
+  --job-surface-muted: #f8fafc;
+  --job-border: #e2e8f0;
+  --job-text: #0f172a;
+  --job-muted: #64748b;
+}
+
+.employer-dashboard,
+.employer-edit-job {
+  background: linear-gradient(180deg, #f5f9ff 0%, #f1f5f9 100%);
+  min-height: 100vh;
+  padding: 2rem clamp(1rem, 3vw, 2.5rem);
+}
+
+.employer-edit-job .page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.employer-edit-job .page-header h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.2vw, 2.25rem);
+  color: var(--job-text);
+}
+
+.employer-edit-job .page-header p {
+  margin: 0;
+  color: var(--job-muted);
+}
+
+.employer-edit-job .page-header .btn-link {
+  width: fit-content;
+  color: var(--job-primary);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.employer-edit-job .card,
+.modal.large-modal {
+  background: var(--job-surface);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.18);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.modal.large-modal h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.75rem;
+  color: var(--job-text);
+}
+
+.job-form__intro {
+  margin: 0 0 1.25rem;
+  color: var(--job-muted);
+  font-size: 0.95rem;
+}
+
+.job-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.job-form__section {
+  background: var(--job-surface-muted);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
+  padding: clamp(1.25rem, 2.2vw, 1.8rem);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 30px -24px rgba(15, 23, 42, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.job-form__section + .job-form__section {
+  margin-top: 0.25rem;
+}
+
+.job-form__section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.job-form__section-header h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--job-text);
+}
+
+.job-form__section-header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--job-muted);
+}
+
+.job-form__grid {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.35rem);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.job-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.job-form .form-group label {
+  font-weight: 600;
+  color: var(--job-text);
+  font-size: 0.98rem;
+}
+
+.job-form .form-group small {
+  color: var(--job-muted);
+  font-size: 0.82rem;
+}
+
+.job-form input,
+.job-form select,
+.job-form textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--job-border);
+  background: var(--job-surface);
+  padding: 0.75rem 0.95rem;
+  font-size: 0.97rem;
+  color: var(--job-text);
+  transition: border 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02);
+}
+
+.job-form input:focus,
+.job-form select:focus,
+.job-form textarea:focus {
+  outline: none;
+  border-color: rgba(37, 99, 235, 0.55);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+  transform: translateY(-1px);
+}
+
+.job-form textarea {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.job-form__requirements-intro {
+  margin: 0;
+  color: var(--job-muted);
+  font-size: 0.88rem;
+}
+
+.requirements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.requirement-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.requirement-item input {
+  flex: 1 1 auto;
+}
+
+.requirement-item .btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(254, 226, 226, 0.65);
+  color: #b91c1c;
+  width: 42px;
+  height: 42px;
+  transition: all 0.2s ease;
+}
+
+.requirement-item .btn-icon:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.job-form .btn.btn-outline.small,
+.job-form .btn.btn-outline {
+  align-self: flex-start;
+  border-radius: 10px;
+  border: 1px dashed rgba(37, 99, 235, 0.4);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--job-primary);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.85rem;
+  transition: background 0.2s ease, border 0.2s ease;
+}
+
+.job-form .btn.btn-outline.small:hover,
+.job-form .btn.btn-outline:hover {
+  background: rgba(37, 99, 235, 0.16);
+  border-color: rgba(37, 99, 235, 0.5);
+}
+
+.job-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 0.35rem;
+}
+
+.job-form__actions .btn,
+.job-form__actions button {
+  border-radius: 12px;
+  padding: 0.75rem 1.85rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-form__actions .btn-secondary {
+  background: rgba(15, 23, 42, 0.06);
+  color: var(--job-text);
+}
+
+.job-form__actions .btn-secondary:hover {
+  background: rgba(15, 23, 42, 0.12);
+}
+
+.job-form__actions .primary {
+  background: linear-gradient(135deg, var(--job-primary), #3b82f6);
+  color: #fff;
+  box-shadow: 0 12px 25px -10px rgba(37, 99, 235, 0.65);
+}
+
+.job-form__actions .primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px -12px rgba(37, 99, 235, 0.65);
+}
+
+.form-message.error,
+.job-form .error-message {
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #b91c1c;
+  padding: 0.85rem 1rem;
+  font-weight: 500;
+}
+
+.loading-container,
+.error-container {
+  background: var(--job-surface);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.25);
+  text-align: center;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.error-container .btn.btn-secondary,
+.error-container .btn.btn-link {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .employer-dashboard,
+  .employer-edit-job {
+    padding: 1.5rem clamp(0.9rem, 4vw, 1.5rem);
+  }
+
+  .modal.large-modal {
+    padding: 1.5rem;
+  }
+
+  .job-form__section {
+    padding: 1.1rem;
+  }
+
+  .job-form__actions {
+    justify-content: stretch;
+  }
+
+  .job-form__actions button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-form input,
+  .job-form select,
+  .job-form textarea,
+  .job-form__actions .btn,
+  .job-form__actions button {
+    transition: none;
+  }
+}

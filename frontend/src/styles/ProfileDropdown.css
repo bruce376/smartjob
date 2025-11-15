@@ -1,0 +1,218 @@
+/* Profile Dropdown Styles */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 1rem;
+  z-index: 1000;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  padding: 0.4rem 0.9rem 0.4rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.profile-button:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.profile-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.user-avatar {
+  font-size: 1.1rem;
+  margin-right: 0.6rem;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #1f2937;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 0.5rem;
+}
+
+.dropdown-arrow {
+  font-size: 0.5rem;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+  margin-left: 0.25rem;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06),
+              0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  min-width: 240px;
+  z-index: 1000;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  transform-origin: top right;
+  animation: scaleIn 0.15s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dropdown-header {
+  padding: 0.9rem 1.1rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.user-email {
+  font-size: 0.85rem;
+  color: #4b5563;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 0.25rem 0;
+  border: none;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.7rem 1.1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #374151;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.dropdown-item:active {
+  background-color: #e5e7eb;
+}
+
+.dropdown-icon {
+  margin-right: 0.8rem;
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.dropdown-text {
+  flex: 1;
+}
+
+.logout-button {
+  color: #ef4444;
+  font-weight: 500;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.logout-button:hover {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.logout-button:active {
+  background-color: #fecaca;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-dropdown {
+    margin-left: 0.5rem;
+  }
+  
+  .profile-button {
+    padding: 0.3rem 0.7rem 0.3rem 0.5rem;
+    min-width: auto;
+  }
+  
+  .user-name {
+    display: none;
+  }
+  
+  .dropdown-menu {
+    position: fixed;
+    top: auto;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    max-width: calc(100% - 2rem);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .dropdown-item {
+    padding: 0.8rem 1.1rem;
+  }
+}
+
+/* Animation for dropdown items */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  animation: fadeIn 0.15s ease-out forwards;
+  opacity: 0;
+}
+
+.dropdown-item:nth-child(1) { animation-delay: 0.05s; }
+.dropdown-item:nth-child(2) { animation-delay: 0.1s; }
+.dropdown-item:nth-child(3) { animation-delay: 0.15s; }
+.dropdown-item:nth-child(4) { animation-delay: 0.2s; }

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+        #result { margin-top: 20px; padding: 10px; border: 1px solid #ddd; min-height: 100px; }
+    </style>
+</head>
+<body>
+    <h2>Admin Login Test</h2>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" value="admin@smartjob.com">
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" value="Admin@1234">
+    </div>
+    <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role">
+            <option value="Admin">Admin</option>
+            <option value="Employer">Employer</option>
+            <option value="JobSeeker">Job Seeker</option>
+        </select>
+    </div>
+    <button onclick="login()">Login</button>
+    
+    <h3>Response:</h3>
+    <div id="result">Click the Login button to test</div>
+
+    <script>
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Sending request...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password, role })
+                });
+                
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <strong>Status:</strong> ${response.status} (${response.statusText})<br><br>
+                    <strong>Response:</strong><br>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                    <strong>Headers:</strong><br>
+                    <pre>${JSON.stringify({
+                        'Content-Type': response.headers.get('Content-Type'),
+                        'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+                        'Access-Control-Allow-Credentials': response.headers.get('Access-Control-Allow-Credentials'),
+                        'Set-Cookie': response.headers.get('Set-Cookie')
+                    }, null, 2)}</pre>
+                `;
+                
+                console.log('Login response:', data);
+                
+                if (data.token) {
+                    // Test protected route
+                    testProtectedRoute(data.token);
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                console.error('Login error:', error);
+            }
+        }
+        
+        async function testProtectedRoute(token) {
+            try {
+                const response = await fetch('http://localhost:5000/api/admin/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                console.log('Protected route response:', data);
+                
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML += `
+                    <br><strong>Protected Route Test (${response.status}):</strong><br>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                console.error('Protected route error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

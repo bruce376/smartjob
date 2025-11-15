@@ -1,0 +1,72 @@
+GOOGLE AUTHENTICATION SETUP - QUICK START
+==========================================
+
+FILES CREATED:
+✅ Backend: routes/google-auth.js, updated models/user.js, updated server.js
+✅ Frontend: components/GoogleLoginButton.jsx, updated login.jsx, updated register.jsx
+✅ Styles: styles/google-auth.css
+✅ Docs: GOOGLE_LOGIN_COMPLETE_GUIDE.md
+
+INSTALLATION STEPS:
+===================
+
+1. INSTALL FRONTEND PACKAGE:
+   cd frontend
+   npm install @react-oauth/google
+
+2. GET GOOGLE CREDENTIALS:
+   - Go to: https://console.cloud.google.com/
+   - Create project "SmartJob"
+   - Enable Google+ API
+   - Create OAuth Client ID
+   - Copy Client ID and Client Secret
+
+3. ADD TO BACKEND .env:
+   GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+   GOOGLE_CLIENT_SECRET=your_client_secret
+
+4. CREATE FRONTEND .env:
+   cd frontend
+   Create file: .env
+   Add: VITE_GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+
+5. IMPORT CSS:
+   Add to frontend/src/main.jsx or App.jsx:
+   import './styles/google-auth.css';
+
+6. RESTART SERVERS:
+   Backend: node server.js
+   Frontend: npm run dev
+
+TESTING:
+========
+1. Go to http://localhost:5173/login
+2. Click "Sign in with Google"
+3. Select Google account
+4. Choose role (if new user)
+5. Done!
+
+FEATURES:
+=========
+✅ Login with Google button
+✅ Register with Google button
+✅ Automatic account creation
+✅ Role selection for new users
+✅ Works with existing accounts
+✅ Beautiful UI with modals
+✅ Error handling
+
+DETAILED GUIDE:
+===============
+See: GOOGLE_LOGIN_COMPLETE_GUIDE.md
+
+TROUBLESHOOTING:
+================
+- Button not showing? Install @react-oauth/google
+- Error? Check Client ID in .env files
+- Role modal not showing? Normal for existing users
+- Redirect error? Add http://localhost:5173 to Google Console
+
+SUPPORT:
+========
+Full documentation in GOOGLE_LOGIN_COMPLETE_GUIDE.md

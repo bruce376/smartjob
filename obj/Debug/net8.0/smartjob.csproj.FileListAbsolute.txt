@@ -1,0 +1,4 @@
+C:\Users\USER\source\repos\smartjob\smartjob\obj\Debug\net8.0\smartjob.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\source\repos\smartjob\smartjob\obj\Debug\net8.0\smartjob.AssemblyInfoInputs.cache
+C:\Users\USER\source\repos\smartjob\smartjob\obj\Debug\net8.0\smartjob.AssemblyInfo.cs
+C:\Users\USER\source\repos\smartjob\smartjob\obj\Debug\net8.0\smartjob.csproj.CoreCompileInputs.cache

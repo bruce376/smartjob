@@ -1,0 +1,40 @@
+{
+  "name": "smartjob-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'No build step required'",
+    "dev": "nodemon server.js",
+    "seed": "node seed.js",
+    "test-login": "node test-login.js",
+    "test-db": "node test-connection.js",
+    "test-apps": "node test-applications.js",
+    "reassign-jobs": "node reassign-jobs.js",
+    "restore-jobs": "node restore-job-owners.js",
+    "test-security": "node test-employer-security.js",
+    "test-deletion": "node test-job-deletion.js",
+    "test-jobseeker-register": "node test-jobseeker-register.js"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "axios": "^1.13.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mammoth": "^1.11.0",
+    "mongoose": "^8.0.0",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.9",
+    "openai": "^6.8.1",
+    "path": "^0.12.7",
+    "pdf-parse": "^2.4.5",
+    "react-router-dom": "^7.9.4"
+  },
+  "devDependencies": {
+    "eslint": "^9.37.0",
+    "nodemon": "^3.0.2"
+  }
+}

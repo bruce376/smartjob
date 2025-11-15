@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartJob Database Seeder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+        .status-label {
+            color: #666;
+        }
+        .status-value {
+            font-weight: bold;
+            color: #333;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .message.show {
+            display: block;
+        }
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #333;
+        }
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 SmartJob Database Seeder</h1>
+        <p class="subtitle">Populate your database with sample jobs</p>
+        
+        <div class="status" id="status">
+            <div class="status-item">
+                <span class="status-label">Jobs in Database:</span>
+                <span class="status-value" id="jobCount">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Employers:</span>
+                <span class="status-value" id="employerCount">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Status:</span>
+                <span class="status-value" id="needsSeeding">Checking...</span>
+            </div>
+        </div>
+
+        <button id="checkBtn" onclick="checkStatus()">🔄 Check Status</button>
+        <button id="seedBtn" onclick="seedDatabase()">🌱 Seed Database (15 Jobs)</button>
+
+        <div id="message" class="message"></div>
+
+        <div class="info-box">
+            <strong>ℹ️ What this does:</strong>
+            Creates 15 sample jobs across various categories and a default employer account if needed.
+            <br><br>
+            <strong>Default Employer Login:</strong><br>
+            Email: employer@example.com<br>
+            Password: employer123
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+
+        async function checkStatus() {
+            const btn = document.getElementById('checkBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>Checking...';
+            hideMessage();
+
+            try {
+                const response = await fetch(`${API_URL}/seed/status`);
+                const data = await response.json();
+
+                document.getElementById('jobCount').textContent = data.jobCount;
+                document.getElementById('employerCount').textContent = data.employerCount;
+                document.getElementById('needsSeeding').textContent = data.needsSeeding ? '⚠️ Needs Seeding' : '✅ Ready';
+
+                showMessage('Status updated successfully!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error connecting to backend. Make sure the server is running on port 5000.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🔄 Check Status';
+            }
+        }
+
+        async function seedDatabase() {
+            const btn = document.getElementById('seedBtn');
+            if (!confirm('This will clear existing jobs and create 15 new sample jobs. Continue?')) {
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>Seeding Database...';
+            hideMessage();
+
+            try {
+                const response = await fetch(`${API_URL}/seed`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(
+                        `✅ Success! Created ${data.jobsCreated} jobs. Employer: ${data.employer.email}`,
+                        'success'
+                    );
+                    // Refresh status
+                    setTimeout(checkStatus, 1000);
+                } else {
+                    showMessage(`❌ Error: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error connecting to backend. Make sure the server is running on port 5000.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🌱 Seed Database (15 Jobs)';
+            }
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = `message ${type} show`;
+        }
+
+        function hideMessage() {
+            const msg = document.getElementById('message');
+            msg.className = 'message';
+        }
+
+        // Check status on load
+        window.addEventListener('load', checkStatus);
+    </script>
+</body>
+</html>

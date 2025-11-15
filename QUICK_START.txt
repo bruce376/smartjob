@@ -1,0 +1,35 @@
+SMARTJOB LOGIN - QUICK START GUIDE
+===================================
+
+YOUR LOGIN IS ALREADY CONNECTED TO DATABASE!
+
+STEP 1: Start Backend
+---------------------
+cd backend
+node server.js
+
+STEP 2: Create Test Users
+-------------------------
+Open: frontend/test-login.html in browser
+Click: "Create Test Users" button
+
+STEP 3: Test Login
+------------------
+Option A: Use test-login.html (click Job Seeker, then Login)
+Option B: Start frontend (npm run dev) and go to /login
+
+TEST CREDENTIALS
+----------------
+Job Seeker: jobseeker@test.com / password123
+Employer:   employer@test.com / password123
+Admin:      admin@test.com / password123
+
+FILES CREATED
+-------------
+1. backend/routes/test-users.js - API to create test users
+2. frontend/test-login.html - Visual login tester
+3. backend/test-login.js - CLI script
+4. LOGIN_SETUP_GUIDE.md - Full documentation
+
+EVERYTHING IS WORKING!
+Just restart backend server and create test users.
