@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { isLoggedIn, getUserRole } from "../utils/auth";
 import LoginModal from "../components/LoginModal";
-
 function Home() {
   const loggedIn = isLoggedIn();
   const role = getUserRole();
