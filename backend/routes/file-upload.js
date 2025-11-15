@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const auth = require('../middleware/auth');
-const User = require('../models/User');
+const User = require('../models/user');
 const router = express.Router();
 
 // Create uploads directory if it doesn't exist
