@@ -16,8 +16,8 @@ const allowedOrigins = [
   'http://smartjob.unaux.com',
   'https://smartjob.unaux.com',
   'https://smartjobconnekt.netlify.app', // Your Netlify URL
-  'https://smartjob-api.onrender.com', // Your Render API URL
-  'https://smartjob-api-ugtf.onrender.com'
+  'https://smartjob-api-ugtf.onrender.com', // Your Render API URL
+  'https://smartjob-api-ugtf.onrender.com' // Duplicate for safety
 ];
 
 const corsOptions = {
