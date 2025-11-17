@@ -25,7 +25,7 @@ const GoogleLoginButton = ({ mode = "login" }) => {
 
       // First, try to login/register without role
       // The backend expects this at /api/auth/google
-      const response = await api.post("/api/auth/google", { credential });
+      const response = await api.post("/auth/google", { credential });
 
       // Success - user exists or was created
       localStorage.setItem("token", response.data.token);
@@ -60,7 +60,7 @@ const GoogleLoginButton = ({ mode = "login" }) => {
 
     try {
       // The backend expects this at /api/auth/google
-      const response = await api.post("/api/auth/google", {
+      const response = await api.post("/auth/google", {
         credential: googleCredential,
         role: selectedRole,
       });

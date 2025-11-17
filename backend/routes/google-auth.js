@@ -4,7 +4,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 // POST: Google Sign-In
-router.post("/google", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const { credential, role } = req.body;
 
@@ -15,10 +15,7 @@ router.post("/google", async (req, res) => {
         // Decode Google JWT token (basic decode - in production, verify with Google)
         const base64Url = credential.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-
+        const jsonPayload = Buffer.from(base64, 'base64').toString('utf8');
         const googleUser = JSON.parse(jsonPayload);
 
         // Extract user info from Google token
@@ -95,7 +92,7 @@ router.post("/google", async (req, res) => {
 });
 
 // POST: Check if email exists (for role selection)
-router.post("/google/check-email", async (req, res) => {
+router.post("/check-email", async (req, res) => {
     try {
         const { email } = req.body;
         
