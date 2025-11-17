@@ -116,6 +116,16 @@ const connectDB = async () => {
     }
 };
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'ok', 
+        message: 'Backend is running',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
 // Load routes
 const authRoutes = require("./routes/auths");
 const testAuthRoutes = require("./routes/test-auth");
