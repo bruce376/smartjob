@@ -27,7 +27,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   'https://smartjobconnekt.netlify.app',
-  'https://smartjob-api-ugtf.onrender.com'
+  'https://smartjob-ooo2.onrender.com'
 ];
 
 const corsOptions = {
