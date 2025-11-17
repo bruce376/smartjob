@@ -84,21 +84,34 @@ if (!mongoURI) {
 const connectDB = async () => {
     try {
         console.log("🔄 Attempting to connect to MongoDB...");
+        console.log("🔗 Connection string:", 
+            mongoURI.replace(/(mongodb\+srv:\/\/[^:]+:)([^@]+)(@.+)/, "$1*****$3"));
+            
         await mongoose.connect(mongoURI, {
             serverSelectionTimeoutMS: 10000, // Timeout after 10 seconds
             socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
         });
+        
         console.log("✓ MongoDB connected successfully");
         return true;
     } catch (err) {
         console.error("❌ MongoDB connection error:", err.message);
-        console.error("💡 Troubleshooting tips:");
+        console.error("🔍 Error details:", {
+            name: err.name,
+            code: err.code,
+            codeName: err.codeName,
+            errorLabels: err.errorLabels
+        });
+        
+        console.error("\n💡 Troubleshooting tips:");
         console.error("   1. Check your internet connection");
         console.error("   2. Verify MongoDB Atlas IP whitelist (add 0.0.0.0/0 for all IPs)");
-        console.error("   3. Check if your MongoDB cluster is active");
+        console.error("   3. Check if your MongoDB cluster is active and accessible");
         console.error("   4. Verify credentials in .env file");
+        console.error("   5. Ensure your MongoDB user has the correct permissions");
+        console.error("   6. Check MongoDB Atlas logs for connection attempts");
+        
         console.error("\n⚠️  Server will continue without database connection for static file serving...\n");
-        // Don't exit - allow server to start for static file serving
         return false;
     }
 };
