@@ -1,37 +1,37 @@
 {
   "name": "smartjob-backend",
   "version": "1.0.0",
+  "description": "SmartJobConnect Backend API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "echo 'No build step required'",
     "dev": "nodemon server.js",
     "seed": "node seed.js",
-    "test-login": "node test-login.js",
-    "test-db": "node test-connection.js",
-    "test-apps": "node test-applications.js",
-    "reassign-jobs": "node reassign-jobs.js",
-    "restore-jobs": "node restore-job-owners.js",
-    "test-security": "node test-employer-security.js",
-    "test-deletion": "node test-job-deletion.js",
-    "test-jobseeker-register": "node test-jobseeker-register.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   },
   "dependencies": {
-    "@heroicons/react": "^2.2.0",
-    "axios": "^1.13.2",
     "bcryptjs": "^2.4.3",
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-rate-limit": "^7.5.1",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mammoth": "^1.11.0",
     "mongoose": "^8.0.0",
+    "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.9",
     "openai": "^6.8.1",
     "path": "^0.12.7",
     "pdf-parse": "^2.4.5",
-    "react-router-dom": "^7.9.4"
+    "react-router-dom": "^7.9.4",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "eslint": "^9.37.0",
