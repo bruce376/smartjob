@@ -13,5 +13,3 @@
 [context.production.environment]
   VITE_API_BASE_URL = "https://smartjob-api-ugtf.onrender.com"
   VITE_DEBUG = "false"
-'https://smartjobconnekt.netlify.app', // Your Netlify URL
- 
