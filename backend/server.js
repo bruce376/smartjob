@@ -82,6 +82,22 @@ mongoose.connect(mongoURI, {
 // API Routes
 const router = express.Router();
 
+// Import route files
+const authRoutes = require('./routes/auths');
+const jobRoutes = require('./routes/job');
+const userRoutes = require('./routes/userRoutes');
+const applicationRoutes = require('./routes/application');
+const adminRoutes = require('./routes/admin');
+const aiRoutes = require('./routes/aiRoutes');
+
+// Mount routes
+router.use('/auth', authRoutes);
+router.use('/jobs', jobRoutes);
+router.use('/users', userRoutes);
+router.use('/applications', applicationRoutes);
+router.use('/admin', adminRoutes);
+router.use('/ai', aiRoutes);
+
 // Test API route
 router.get('/', (req, res) => {
   res.json({
@@ -101,22 +117,6 @@ router.get('/', (req, res) => {
 
 // Mount the router at /api
 app.use('/api', router);
-
-// Import and use your route files
-const authRoutes = require('./routes/auths');
-const jobRoutes = require('./routes/job');
-const userRoutes = require('./routes/userRoutes');
-const applicationRoutes = require('./routes/application');
-const adminRoutes = require('./routes/admin');
-const aiRoutes = require('./routes/ai');
-
-// Mount routes
-app.use('/api/auth', authRoutes);
-app.use('/api/jobs', jobRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/applications', applicationRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/ai', aiRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

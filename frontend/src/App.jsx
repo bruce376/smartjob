@@ -15,6 +15,7 @@ import Settings from "./pages/Settings.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import Logo from "./components/Logo.jsx";
 import ProfileDropdown from "./components/ProfileDropdown";
+import About from "./pages/About.jsx";
 import { isLoggedIn, getUserRole, getUserFromToken } from "./utils/auth";
 
 // Import styles
@@ -84,6 +85,9 @@ function Navigation() {
           {!loggedIn && (
             <Link to="/jobs" className="nav-link">Jobs</Link>
           )}
+
+          {/* Always show About link */}
+          <Link to="/about" className="nav-link">About</Link>
           
           {loggedIn ? (
             <ProfileDropdown />
@@ -152,6 +156,7 @@ function App() {
             <Route path="/" element={isAdmin ? <AdminDashboard /> : <Home />} />
             <Route path="/for-employers" element={<ForEmployers />} />
             <Route path="/for-job-seekers" element={<ForJobSeekers />} />
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/settings" element={<Settings />} />
@@ -222,7 +227,7 @@ function App() {
               <div className="footer-section">
                 <h4 className="footer-title">Company</h4>
                 <ul className="footer-links">
-                  <li><a href="#">About Us</a></li>
+                  <li><Link to="/about">About Us</Link></li>
                   <li><a href="#">Contact</a></li>
                   <li><a href="#">Careers</a></li>
                   <li><a href="#">Press</a></li>
