@@ -33,9 +33,7 @@
     "natural": "^8.1.0",
     "nodemailer": "^7.0.9",
     "openai": "^6.8.1",
-    "path": "^0.12.7",
     "pdf-parse": "^2.4.5",
-    
     "winston": "^3.11.0"
   },
   "devDependencies": {
