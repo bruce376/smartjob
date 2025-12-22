@@ -12,7 +12,7 @@ export const getFileUrl = (filePath) => {
   }
   
   // Get base URL from environment variable or use default
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://smartjob-3.onrender.com/api';
   const baseUrl = apiBaseUrl.replace('/api', '');
   
   // Ensure filePath starts with /

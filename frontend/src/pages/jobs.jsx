@@ -41,7 +41,7 @@ const Jobs = () => {
     // Set a timeout to prevent infinite loading
     const timeoutId = setTimeout(() => {
       setLoading(false);
-      setError("Connection timeout. Please check if the backend server is running on http://localhost:5000");
+      setError("Connection timeout. Please check your internet connection and try again.");
     }, 5000); // 5 second timeout
     
     try {
@@ -212,10 +212,10 @@ const Jobs = () => {
             <div className="error-help">
               <p><strong>Quick Fix:</strong></p>
               <ol>
-                <li>Open terminal in backend folder</li>
-                <li>Run: <code>npm run dev</code></li>
-                <li>Wait for "Server running on port 5000"</li>
-                <li>Click "Try Again" above</li>
+                <li>Check your internet connection</li>
+                <li>Refresh the page</li>
+                <li>Try again in a few moments</li>
+                <li>Contact support if the issue persists</li>
               </ol>
             </div>
           </div>

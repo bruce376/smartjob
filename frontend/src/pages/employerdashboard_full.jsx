@@ -459,7 +459,7 @@ const EmployerDashboard = () => {
                             }
                             
                             // Use the dedicated download endpoint
-                            const baseUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
+                            const baseUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'https://smartjob-3.onrender.com';
                             const downloadUrl = `${baseUrl}/api/upload/download-cv/${filename}`;
                             
                             console.log('Downloading CV:', { cvPath, filename, downloadUrl });
