@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // Ensure the base URL is properly formatted
-let API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://smartjob-ooo2.onrender.com';
+let API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://smartjob-3.onrender.com';
 // Remove any trailing slashes and then ensure it doesn't end with /api to prevent duplicates
 API_BASE_URL = API_BASE_URL.replace(/\/+$/, '');
 // Only add /api if it's not already in the URL
