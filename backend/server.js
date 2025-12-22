@@ -27,6 +27,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   'https://smartjobconnekt.netlify.app',
+  'https://umurimoconnect.netlify.app',
   'https://smartjob-ooo2.onrender.com'
 ];
 
