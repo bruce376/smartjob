@@ -67,11 +67,11 @@ const Login = () => {
       );
       
       console.log('Login response data:', res.data);
-      
-      console.log('Login response:', res.data);
+      console.log('Login response data:', res.data);
+      console.log('Full response:', res);
       
       // Handle successful login
-      if (res.data.success && res.data.token) {
+      if (res.data && res.data.success && res.data.token) {
         // Store token and user data
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));

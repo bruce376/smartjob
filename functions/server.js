@@ -28,29 +28,20 @@ const allowedOrigins = [
   'http://localhost:5174',
   'https://smartjobconnekt.netlify.app',
   'https://umurimoconnect.netlify.app',
-  'https://umurimoconnect-mobile.web.app',
   'https://smartjob-ooo2.onrender.com'
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, Postman, etc)
-    if (!origin) {
-      return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
-    
-    // Check if origin is in allowed list
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    
-    // Log the blocked origin for debugging
-    console.log('CORS blocked origin:', origin);
-    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));

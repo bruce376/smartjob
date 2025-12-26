@@ -14,7 +14,6 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
-    "@dataconnect/generated": "file:src/dataconnect-generated",
     "@google-cloud/language": "^7.2.1",
     "@google-cloud/speech": "^7.2.1",
     "@google-cloud/storage": "^7.18.0",

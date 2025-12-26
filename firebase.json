@@ -1,0 +1,1 @@
+{"hosting": {"public": "frontend/dist", "ignore": ["firebase.json", "**/.*", "**/node_modules/**"], "rewrites": [{"source": "/api/**", "destination": "https://smartjob-3.onrender.com/api/**"}], "headers": [{"source": "/api/**", "headers": [{"key": "Access-Control-Allow-Origin", "value": "*"}]}]}}
