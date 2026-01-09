@@ -47,9 +47,6 @@ const ForJobSeekers = () => {
             <h1 className="hero-title">
               {t('forJobSeekers.heroTitle')}
             </h1>
-            <p className="hero-subtitle">
-              {t('forJobSeekers.heroSubtitle')}
-            </p>
             <div className="hero-buttons">
               <button className="btn btn-primary btn-lg" onClick={handleGetStarted}>
                 {role === "JobSeeker" ? t('forJobSeekers.browseJobs') : t('forJobSeekers.startJobSearch')}

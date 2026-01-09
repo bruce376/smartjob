@@ -19,7 +19,6 @@
   },
   "home": {
     "heroTitle": "Find Your Dream Job with Smart Insights & Human Support",
-    "heroSubtitle": "SmartJob connects ambitious professionals with vetted opportunities, real-time market data, and coaching tools that keep you interview-ready.",
     "heroPill": "Smarter career moves, delivered daily",
     "createProfile": "Create Free Profile",
     "exploreJobs": "Explore Open Roles",
@@ -278,7 +277,6 @@
     "needEmployerAccount": "You need an employer account to post jobs. Please update your profile to an employer account.",
     "updateToEmployer": "Please update your profile to an employer account",
     "heroTitle": "Find Perfect <span class=\"highlight\">Talent</span> for Your Team",
-    "heroSubtitle": "Post jobs, manage applications, and hire top talent all in one place. SmartJob makes recruiting simple and effective.",
     "goToDashboard": "Go to Dashboard",
     "postFirstJob": "Post Your First Job",
     "browseTalent": "Browse Talent Pool",

@@ -55,9 +55,6 @@ const ForEmployers = () => {
             <h1 className="hero-title">
               {t('forEmployers.heroTitle')}
             </h1>
-            <p className="hero-subtitle">
-              {t('forEmployers.heroSubtitle')}
-            </p>
             <div className="hero-buttons">
               <button className="btn btn-primary btn-lg" onClick={handleGetStarted}>
                 {role === "Employer" ? t('forEmployers.goToDashboard') : t('forEmployers.postFirstJob')}

@@ -116,10 +116,7 @@ function Home() {
           <div className="hero-content">
             <span className="hero-pill">{t('home.heroPill')}</span>
             <h1 className="hero-title">{t('home.heroTitle')}</h1>
-            <p className="hero-subtitle">
-              {t('home.heroSubtitle')}
-            </p>
-            <div className="hero-buttons">
+                        <div className="hero-buttons">
               {!loggedIn ? (
                 <>
                   <Link to="/register" className="btn btn-primary btn-lg">
