@@ -28,7 +28,20 @@ const Messages = () => {
 
   // Initialize Socket.IO connection
   useEffect(() => {
-    socketRef.current = io('http://localhost:5000', {
+    // Determine socket server URL based on environment
+    const socketUrl = window.location.hostname.includes('web.app') || 
+                     window.location.hostname.includes('firebaseapp.com') ||
+                     window.location.hostname.includes('netlify.app')
+                     ? 'https://smartjob-ooo2.onrender.com'
+                     : 'http://localhost:5000';
+    
+    // Only connect socket if user is logged in
+    if (!user || !user.id) {
+      console.log('User not logged in, skipping socket connection');
+      return;
+    }
+    
+    socketRef.current = io(socketUrl, {
       transports: ['websocket', 'polling']
     });
 
@@ -114,12 +127,23 @@ const Messages = () => {
 
   const fetchConversations = async () => {
     try {
+      // Check if user is logged in
+      if (!user || !user.id) {
+        console.log('User not logged in, skipping conversations fetch');
+        setLoading(false);
+        return;
+      }
+      
       const response = await api.get('/messages/conversations');
       setConversations(response.data.data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching conversations:', error);
       setLoading(false);
+      // Don't show alert for authentication errors, just log them
+      if (error.response?.status === 401) {
+        console.log('Authentication required for conversations');
+      }
     }
   };
 
@@ -134,10 +158,20 @@ const Messages = () => {
 
   const fetchAvailableUsers = async () => {
     try {
+      // Check if user is logged in
+      if (!user || !user.id) {
+        console.log('User not logged in, skipping available users fetch');
+        return;
+      }
+      
       const response = await api.get('/messages/available-users');
       setAvailableUsers(response.data.data);
     } catch (error) {
       console.error('Error fetching available users:', error);
+      // Don't show alert for authentication errors, just log them
+      if (error.response?.status === 401) {
+        console.log('Authentication required for available users');
+      }
     }
   };
 

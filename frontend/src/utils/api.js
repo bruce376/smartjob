@@ -1,16 +1,6 @@
 // src/utils/api.js
 import axios from "axios";
-
-// Ensure the base URL is properly formatted
-let API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
-// Remove any trailing slashes and then ensure it doesn't end with /api to prevent duplicates
-API_BASE_URL = API_BASE_URL.replace(/\/+$/, '');
-// Only add /api if it's not already in the URL
-if (!API_BASE_URL.endsWith('/api') && !API_BASE_URL.includes('/api/')) {
-  API_BASE_URL = `${API_BASE_URL}/api`;
-}
-
-const DEBUG_MODE = import.meta.env.VITE_DEBUG === 'true';
+import { API_BASE_URL, DEBUG_MODE } from '../config/api-config.js';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
