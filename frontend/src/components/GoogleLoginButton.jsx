@@ -16,6 +16,11 @@ const GoogleLoginButton = ({ mode = "login" }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const handleGoogleError = (error) => {
+    console.error("Google Sign-In Error:", error);
+    setError("Google Sign-In is not available. Please try signing up with email instead.");
+  };
+
   const handleGoogleSuccess = async (credentialResponse) => {
     setError("");
     setLoading(true);
@@ -82,10 +87,6 @@ const GoogleLoginButton = ({ mode = "login" }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleGoogleError = () => {
-    setError("Google sign-in was cancelled or failed");
   };
 
   if (showRoleSelection) {
@@ -184,11 +185,17 @@ const GoogleLoginButton = ({ mode = "login" }) => {
             theme="outline"
             size="large"
             width="300"
+            useOneTap={false}
+            auto_select={false}
           />
         </div>
       </GoogleOAuthProvider>
 
       {loading && <p className="loading-text">Processing...</p>}
+      
+      <div style={{ marginTop: '10px', fontSize: '12px', color: '#666', textAlign: 'center' }}>
+        If Google Sign-In doesn't work, please use email registration
+      </div>
     </div>
   );
 };
