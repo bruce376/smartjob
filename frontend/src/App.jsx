@@ -62,6 +62,10 @@ function Navigation() {
             {/* Show landing pages only when NOT logged in */}
             {!loggedIn && (
               <>
+                <Link to="/jobs" className="nav-link">
+                  <span className="nav-icon">📋</span>
+                  <span className="nav-text">{t('nav.jobs')}</span>
+                </Link>
                 <Link to="/for-employers" className="nav-link">
                   <span className="nav-icon">👥</span>
                   <span className="nav-text">{t('nav.forEmployers')}</span>

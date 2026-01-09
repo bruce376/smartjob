@@ -1,0 +1,29 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="30" cy="30" r="28" fill="white" opacity="0.2"/>
+  
+  <!-- Briefcase Icon -->
+  <g transform="translate(15, 15)">
+    <!-- Briefcase body -->
+    <rect x="5" y="12" width="20" height="14" rx="2" fill="white"/>
+    <!-- Briefcase handle -->
+    <path d="M10 12 L10 8 C10 6.5 11 6 12.5 6 L17.5 6 C19 6 20 6.5 20 8 L20 12" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Briefcase lock -->
+    <rect x="13.5" y="16" width="3" height="4" rx="0.5" fill="#667eea"/>
+  </g>
+  
+  <!-- Text: Smart -->
+  <text x="65" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="white">
+    Smart
+  </text>
+  
+  <!-- Text: Job -->
+  <text x="130" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="white">
+    Job
+  </text>
+  
+  <!-- Tagline -->
+  <text x="65" y="48" font-family="Arial, sans-serif" font-size="9" fill="white" opacity="0.8" letter-spacing="1">
+    CONNECT • APPLY • SUCCEED
+  </text>
+</svg>
