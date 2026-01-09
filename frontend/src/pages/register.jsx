@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import api, { setAuthToken } from "../utils/api";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const Register = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const preSelectedRole = location.state?.role || "JobSeeker";
@@ -31,11 +33,11 @@ const Register = () => {
 
     try {
       const requiredFields = [
-        { key: "name", label: "Full Name" },
-        { key: "email", label: "Email" },
-        { key: "password", label: "Password" },
-        { key: "confirmPassword", label: "Confirm Password" },
-        { key: "role", label: "Role" }
+        { key: "name", label: t('auth.name') },
+        { key: "email", label: t('auth.email') },
+        { key: "password", label: t('auth.password') },
+        { key: "confirmPassword", label: t('auth.confirmPassword') },
+        { key: "role", label: t('auth.role') }
       ];
 
       const missingFields = requiredFields
@@ -43,19 +45,19 @@ const Register = () => {
         .map(({ label }) => label);
 
       if (missingFields.length > 0) {
-        setError(`Please fill in: ${missingFields.join(", ")}`);
+        setError(`${t('auth.fillIn')}: ${missingFields.join(", ")}`);
         setLoading(false);
         return;
       }
 
       if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
+        setError(t('auth.passwordsNotMatch'));
         setLoading(false);
         return;
       }
 
       if (formData.password && formData.password.length < 6) {
-        setError("Password must be at least 6 characters long");
+        setError(t('auth.passwordMinLength'));
         setLoading(false);
         return;
       }
@@ -69,7 +71,7 @@ const Register = () => {
         // Set auth token for API requests
         setAuthToken(res.data.token);
         
-        setError("Registration successful! Redirecting...");
+        setError(t('auth.signupSuccess') + "! " + t('auth.redirecting') + "...");
         
         setTimeout(() => {
           if (returnTo) {
@@ -81,19 +83,19 @@ const Register = () => {
           }
         }, 1500);
       } else {
-        setError(res.data.message || "Registration failed. Please try again.");
+        setError(res.data.message || t('auth.signupError'));
       }
     } catch (err) {
       if (err.response) {
         if (err.response.status === 409) {
-          setError("An account with this email already exists.");
+          setError(t('auth.accountExists'));
         } else if (err.response.data?.message) {
           setError(err.response.data.message);
         }
       } else if (err.request) {
-        setError("Unable to connect to the server. Please check your connection.");
+        setError(t('errors.networkError'));
       } else {
-        setError("An unexpected error occurred. Please try again.");
+        setError(err.message || t('errors.unknownError'));
       }
     } finally {
       setLoading(false);
@@ -104,8 +106,8 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h2>Create Account</h2>
-          <p>Join SmartJob today</p>
+          <h2>{t('auth.createAccount')}</h2>
+          <p>{t('auth.joinToday')}</p>
         </div>
 
         {error && (
@@ -117,17 +119,17 @@ const Register = () => {
         <GoogleLoginButton mode="signup" />
 
         <div className="divider">
-          <span>or</span>
+          <span>{t('common.or')}</span>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="name">{t('auth.name')}</label>
             <input
               type="text"
               id="name"
               name="name"
-              placeholder="Full Name"
+              placeholder={t('auth.namePlaceholder')}
               value={formData.name}
               onChange={handleChange}
               autoComplete="name"
@@ -136,12 +138,12 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email">{t('auth.emailAddress')}</label>
             <input
               type="email"
               id="email"
               name="email"
-              placeholder="Email"
+              placeholder={t('auth.emailPlaceholder')}
               value={formData.email}
               onChange={handleChange}
               autoComplete="email"
@@ -150,12 +152,12 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t('auth.password')}</label>
             <input
               type="password"
               id="password"
               name="password"
-              placeholder="Password (min 6 characters)"
+              placeholder={t('auth.passwordMinLengthPlaceholder')}
               value={formData.password}
               onChange={handleChange}
               autoComplete="new-password"
@@ -165,12 +167,12 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">{t('auth.confirmPassword')}</label>
             <input
               type="password"
               id="confirmPassword"
               name="confirmPassword"
-              placeholder="Confirm Password"
+              placeholder={t('auth.confirmPasswordPlaceholder')}
               value={formData.confirmPassword}
               onChange={handleChange}
               autoComplete="new-password"
@@ -180,25 +182,25 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="role">I am a</label>
+            <label htmlFor="role">{t('auth.role')}</label>
             <select
               id="role"
               name="role"
               value={formData.role}
               onChange={handleChange}
             >
-              <option value="JobSeeker">Job Seeker</option>
-              <option value="Employer">Employer</option>
+              <option value="JobSeeker">{t('auth.jobSeeker')}</option>
+              <option value="Employer">{t('auth.employer')}</option>
             </select>
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? "Creating Account..." : "Register"}
+            {loading ? t('auth.creatingAccount') : t('auth.signup')}
           </button>
         </form>
 
         <div className="auth-footer">
-          <p>Already have an account? <Link to="/login">Login here</Link></p>
+          <p>{t('auth.alreadyHaveAccount')} <Link to="/login">{t('auth.loginHere')}</Link></p>
         </div>
       </div>
     </div>

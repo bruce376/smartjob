@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import api, { setAuthToken } from "../utils/api";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const Login = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const returnTo = location.state?.returnTo || null;
@@ -127,8 +129,8 @@ const Login = () => {
     <div className="auth-container auth-container--login">
       <div className="login-page">
         <div className="login-header">
-          <h1>Welcome Back to SmartJob</h1>
-          <p>Choose your account type to continue</p>
+          <h1>{t('auth.welcomeBack')}</h1>
+          <p>{t('auth.chooseAccountType')}</p>
         </div>
 
         {/* Role Selection Tabs */}
@@ -142,8 +144,8 @@ const Login = () => {
           >
             <div className="role-icon">🔍</div>
             <div className="role-info">
-              <h3>Job Seeker</h3>
-              <p>Find and apply for jobs</p>
+              <h3>{t('auth.jobSeeker')}</h3>
+              <p>{t('auth.jobSeekerDesc')}</p>
             </div>
           </button>
 
@@ -156,8 +158,8 @@ const Login = () => {
           >
             <div className="role-icon">💼</div>
             <div className="role-info">
-              <h3>Employer</h3>
-              <p>Post jobs and hire talent</p>
+              <h3>{t('auth.employer')}</h3>
+              <p>{t('auth.employerDesc')}</p>
             </div>
           </button>
 
@@ -170,8 +172,8 @@ const Login = () => {
           >
             <div className="role-icon">🛡️</div>
             <div className="role-info">
-              <h3>Admin</h3>
-              <p>Manage platform & users</p>
+              <h3>{t('auth.admin')}</h3>
+              <p>{t('auth.adminDesc')}</p>
             </div>
           </button>
         </div>
@@ -181,17 +183,17 @@ const Login = () => {
           <div className="auth-header">
             <h2>
               {selectedRole === "Admin" 
-                ? "Admin Login" 
+                ? t('auth.adminLogin') 
                 : selectedRole === "Employer" 
-                ? "Employer Login" 
-                : "Job Seeker Login"}
+                ? t('auth.employerLogin') 
+                : t('auth.jobSeekerLogin')}
             </h2>
             <p>
               {selectedRole === "Admin"
-                ? "Login to manage platform and users"
+                ? t('auth.adminLoginDesc')
                 : selectedRole === "Employer"
-                ? "Login to post jobs and manage applications"
-                : "Login to browse jobs and track applications"}
+                ? t('auth.employerLoginDesc')
+                : t('auth.jobSeekerLoginDesc')}
             </p>
           </div>
 
@@ -200,17 +202,17 @@ const Login = () => {
           <GoogleLoginButton mode="login" />
 
           <div className="divider">
-            <span>or</span>
+            <span>{t('common.or')}</span>
           </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">{t('auth.email')}</label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                placeholder="Email"
+                placeholder={t('auth.emailPlaceholder')}
                 value={formData.email}
                 onChange={handleChange}
                 autoComplete="email"
@@ -221,12 +223,12 @@ const Login = () => {
             {/* Removed sex field from login form as it's not needed for login */}
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">{t('auth.password')}</label>
               <input
                 type="password"
                 id="password"
                 name="password"
-                placeholder="Password"
+                placeholder={t('auth.passwordPlaceholder')}
                 value={formData.password}
                 onChange={handleChange}
                 autoComplete="current-password"
@@ -236,26 +238,26 @@ const Login = () => {
 
             <button type="submit" className="btn btn-primary" disabled={loading}>
               {loading 
-                ? "Logging in..." 
+                ? t('auth.loggingIn') 
                 : selectedRole === "Admin" 
-                ? "Login as Admin" 
-                : `Login as ${selectedRole === "Employer" ? "Employer" : "Job Seeker"}`}
+                ? t('auth.loginAsAdmin') 
+                : `${t('auth.loginAs')} ${selectedRole === "Employer" ? t('auth.employer') : t('auth.jobSeeker')}`}
             </button>
           </form>
 
           <div className="auth-footer">
             {selectedRole === "Admin" ? (
               <p style={{ textAlign: 'center', color: '#666', fontSize: '14px' }}>
-                Admin accounts are managed by system administrators
+                {t('auth.adminNote')}
               </p>
             ) : (
               <p>
-                Don't have an account?
+                {t('auth.dontHaveAccount')}
                 <Link
                   to="/register"
                   state={{ role: selectedRole, returnTo }}
                 >
-                  Register as {selectedRole === "Employer" ? "Employer" : "Job Seeker"}
+                  {t('auth.registerAs')} {selectedRole === "Employer" ? t('auth.employer') : t('auth.jobSeeker')}
                 </Link>
               </p>
             )}

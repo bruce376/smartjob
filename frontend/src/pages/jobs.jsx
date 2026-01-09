@@ -1,16 +1,22 @@
 // src/pages/Jobs.js
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import api from "../utils/api";
 import { getUserRole, getUserFromToken } from "../utils/auth";
+import JobMessageModal from "../components/JobMessageModal";
 
 const Jobs = () => {
+  const { t } = useTranslation();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [applyingFor, setApplyingFor] = useState(null);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({ keywords: "", region: "", category: "" });
   const [userApplications, setUserApplications] = useState([]);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [jobsWithComeInRequests, setJobsWithComeInRequests] = useState(new Set());
 
   const role = getUserRole();
   const user = getUserFromToken();
@@ -21,6 +27,9 @@ const Jobs = () => {
     fetchJobs();
     if (role === "JobSeeker") {
       fetchUserApplications();
+    }
+    if (role === "Employer") {
+      fetchComeInRequests();
     }
   }, []);
 
@@ -77,6 +86,26 @@ const Jobs = () => {
     return userApplications.some(app => app.job && app.job._id === jobId);
   };
 
+  const handleMessageEmployer = (job) => {
+    setSelectedJob(job);
+    setShowMessageModal(true);
+  };
+
+  const handleMessageSent = () => {
+    // Optionally refresh conversations or show notification
+    console.log('Message sent successfully');
+  };
+
+  const fetchComeInRequests = async () => {
+    try {
+      const response = await api.get('/messages/come-in-requests');
+      const jobIds = response.data.data.map(req => req.jobRelated);
+      setJobsWithComeInRequests(new Set(jobIds));
+    } catch (error) {
+      console.error('Error fetching come-in requests:', error);
+    }
+  };
+
   const hasActiveFilters = useMemo(() => {
     return Boolean(filters.keywords || filters.region || filters.category);
   }, [filters]);
@@ -111,11 +140,11 @@ const Jobs = () => {
 
   async function apply(jobId) {
     if (role !== "JobSeeker") {
-      alert("You must be logged in as a Job Seeker to apply.");
+      alert(t('common.mustBeLoggedInAsJobSeeker'));
       return;
     }
     if (!user?.id) {
-      alert("Please login first.");
+      alert(t('common.pleaseLoginFirst'));
       return;
     }
 
@@ -150,7 +179,7 @@ const Jobs = () => {
         }
       }
 
-      const coverLetter = prompt("Write a short cover letter (or leave blank):") || "";
+      const coverLetter = prompt(t('jobs.coverLetterPrompt')) || "";
       setApplyingFor(jobId);
 
       // Send application with CV data
@@ -173,7 +202,7 @@ const Jobs = () => {
       };
 
       const res = await api.post(`/applications/${jobId}`, applicationData);
-      alert("Application submitted successfully!");
+      alert(t('jobs.applicationSuccess'));
       // Refresh user applications to update the UI
       fetchUserApplications();
     } catch (err) {
@@ -181,7 +210,7 @@ const Jobs = () => {
       if (err.response?.data?.message) {
         // Handle specific error messages
         if (err.response.data.message === "You already applied for this job") {
-          alert("You have already applied for this job. You can view your application status in your profile.");
+          alert(t('jobs.alreadyApplied'));
           // Refresh applications to ensure UI is updated
           fetchUserApplications();
         } else {
@@ -196,26 +225,26 @@ const Jobs = () => {
   return (
     <div className="jobs-container">
       <div className="jobs-header">
-        <h1>Available Jobs</h1>
-        <p>Discover your next career opportunity</p>
+        <h1>{t('jobs.title')}</h1>
+        <p>{t('jobs.subtitle')}</p>
       </div>
 
       {error && (
         <div className="error-state">
           <div className="error-icon">⚠️</div>
-          <h3>Connection Error</h3>
+          <h3>{t('jobs.connectionError')}</h3>
           <p>{error}</p>
           <div className="error-actions">
             <button className="btn btn-primary" onClick={fetchJobs}>
-              🔄 Try Again
+              🔄 {t('jobs.tryAgain')}
             </button>
             <div className="error-help">
-              <p><strong>Quick Fix:</strong></p>
+              <p><strong>{t('jobs.quickFix')}:</strong></p>
               <ol>
-                <li>Check your internet connection</li>
-                <li>Refresh the page</li>
-                <li>Try again in a few moments</li>
-                <li>Contact support if the issue persists</li>
+                <li>{t('jobs.checkConnection')}</li>
+                <li>{t('jobs.refreshPage')}</li>
+                <li>{t('jobs.tryAgainLater')}</li>
+                <li>{t('jobs.contactSupport')}</li>
               </ol>
             </div>
           </div>
@@ -251,16 +280,16 @@ const Jobs = () => {
       {!loading && !error && jobs.length === 0 && (
         <div className="empty-state">
           <div className="empty-icon">📭</div>
-          <h3>No jobs available right now</h3>
-          <p>Check back later for new opportunities</p>
+          <h3>{t('common.noJobsAvailable')}</h3>
+          <p>{t('common.checkBackLater')}</p>
         </div>
       )}
 
       {!loading && !error && hasActiveFilters && jobs.length > 0 && filteredJobs.length === 0 && (
         <div className="empty-state">
           <div className="empty-icon">🔎</div>
-          <h3>No related job found</h3>
-          <p>Try different keywords, categories, or regions to discover more opportunities.</p>
+          <h3>{t('common.noRelatedJobFound')}</h3>
+          <p>{t('common.tryDifferentKeywords')}</p>
           <button
             type="button"
             className="btn btn-primary"
@@ -307,6 +336,25 @@ const Jobs = () => {
               >
                 View Details
               </button>
+              
+              {/* Come-in notification badge for employers */}
+              {role === "Employer" && jobsWithComeInRequests.has(job._id) && (
+                <div className="come-in-badge" title="Has come-in requests">
+                  🤝 Come In Requests
+                </div>
+              )}
+              
+              {/* Message button for all logged-in users */}
+              {user && (
+                <button
+                  className="btn btn-outline btn-sm message-btn"
+                  onClick={() => handleMessageEmployer(job)}
+                  title="Message employer about this job"
+                >
+                  💬 Message
+                </button>
+              )}
+              
               {role === "JobSeeker" && (
                 hasApplied(job._id) ? (
                   <button
@@ -329,6 +377,15 @@ const Jobs = () => {
           </div>
         ))}
       </div>
+      
+      {/* Job Message Modal */}
+      <JobMessageModal
+        job={selectedJob}
+        isOpen={showMessageModal}
+        onClose={() => setShowMessageModal(false)}
+        user={user}
+        onMessageSent={handleMessageSent}
+      />
     </div>
   );
 };

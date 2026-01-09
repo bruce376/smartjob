@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { getUserRole, isLoggedIn } from "../utils/auth";
 import LoginModal from "../components/LoginModal";
 
 const ForEmployers = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const role = getUserRole();
 
@@ -24,7 +26,7 @@ const ForEmployers = () => {
         // User is logged in but not as an employer
         navigate("/profile", { 
           state: { 
-            message: "You need an employer account to post jobs. Please update your profile to an employer account.",
+            message: t('forEmployers.needEmployerAccount'),
             showUpgradePrompt: true
           } 
         });
@@ -40,7 +42,7 @@ const ForEmployers = () => {
     if (getUserRole() === "Employer") {
       navigate("/employer");
     } else {
-      navigate("/profile", { state: { message: "Please update your profile to an employer account" } });
+      navigate("/profile", { state: { message: t('forEmployers.updateToEmployer') } });
     }
   };
 
@@ -51,18 +53,17 @@ const ForEmployers = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-title">
-              Find the Perfect <span className="highlight">Talent</span> for Your Team
+              {t('forEmployers.heroTitle')}
             </h1>
             <p className="hero-subtitle">
-              Post jobs, manage applications, and hire top talent all in one place. 
-              SmartJob makes recruiting simple and effective.
+              {t('forEmployers.heroSubtitle')}
             </p>
             <div className="hero-buttons">
               <button className="btn btn-primary btn-lg" onClick={handleGetStarted}>
-                {role === "Employer" ? "Go to Dashboard" : "Post Your First Job"}
+                {role === "Employer" ? t('forEmployers.goToDashboard') : t('forEmployers.postFirstJob')}
               </button>
               <button className="btn btn-secondary btn-lg" onClick={() => navigate("/jobs")}>
-                Browse Talent Pool
+                {t('forEmployers.browseTalent')}
               </button>
             </div>
           </div>
@@ -70,18 +71,18 @@ const ForEmployers = () => {
             <div className="hero-illustration employer-illustration">
               <div className="illustration-card">
                 <div className="card-icon">💼</div>
-                <h3>Post Jobs</h3>
-                <p>Reach thousands of qualified candidates</p>
+                <h3>{t('forEmployers.postJobs')}</h3>
+                <p>{t('forEmployers.reachCandidates')}</p>
               </div>
               <div className="illustration-card">
                 <div className="card-icon">📊</div>
-                <h3>Manage Applications</h3>
-                <p>Review and track all applications</p>
+                <h3>{t('forEmployers.manageApplications')}</h3>
+                <p>{t('forEmployers.reviewTrack')}</p>
               </div>
               <div className="illustration-card">
                 <div className="card-icon">✅</div>
-                <h3>Hire Fast</h3>
-                <p>Connect with top talent quickly</p>
+                <h3>{t('forEmployers.hireFast')}</h3>
+                <p>{t('forEmployers.connectQuickly')}</p>
               </div>
             </div>
           </div>
@@ -91,39 +92,39 @@ const ForEmployers = () => {
       {/* Features Section */}
       <section className="features-section">
         <div className="section-header">
-          <h2>Why Employers Choose SmartJob</h2>
-          <p>Everything you need to find and hire the best talent</p>
+          <h2>{t('forEmployers.whyChoose')}</h2>
+          <p>{t('forEmployers.everythingNeeded')}</p>
         </div>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">🚀</div>
-            <h3>Quick Job Posting</h3>
-            <p>Create and publish job listings in minutes. Our intuitive interface makes it easy to reach qualified candidates.</p>
+            <h3>{t('forEmployers.quickPosting')}</h3>
+            <p>{t('forEmployers.quickPostingDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">🎯</div>
-            <h3>Targeted Reach</h3>
-            <p>Your jobs are seen by active job seekers looking for opportunities in your industry and location.</p>
+            <h3>{t('forEmployers.targetedReach')}</h3>
+            <p>{t('forEmployers.targetedReachDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">📋</div>
-            <h3>Application Management</h3>
-            <p>Review, accept, or reject applications from a centralized dashboard. Keep track of all candidates easily.</p>
+            <h3>{t('forEmployers.applicationManagement')}</h3>
+            <p>{t('forEmployers.applicationManagementDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">💬</div>
-            <h3>Direct Communication</h3>
-            <p>Connect directly with candidates. Review cover letters and contact information all in one place.</p>
+            <h3>{t('forEmployers.directCommunication')}</h3>
+            <p>{t('forEmployers.directCommunicationDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">📈</div>
-            <h3>Track Performance</h3>
-            <p>Monitor your job postings and application rates. See which positions attract the most interest.</p>
+            <h3>{t('forEmployers.trackPerformance')}</h3>
+            <p>{t('forEmployers.trackPerformanceDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">🔒</div>
-            <h3>Secure & Private</h3>
-            <p>Your company information is protected. Only you can see applications for your job postings.</p>
+            <h3>{t('forEmployers.securePrivate')}</h3>
+            <p>{t('forEmployers.securePrivateDesc')}</p>
           </div>
         </div>
       </section>
@@ -131,31 +132,31 @@ const ForEmployers = () => {
       {/* How It Works Section */}
       <section className="how-it-works-section">
         <div className="section-header">
-          <h2>How It Works</h2>
-          <p>Start hiring in 3 simple steps</p>
+          <h2>{t('forEmployers.howItWorks')}</h2>
+          <p>{t('forEmployers.simpleSteps')}</p>
         </div>
         <div className="steps-container">
           <div className="step-card">
             <div className="step-number">1</div>
             <div className="step-content">
-              <h3>Create Your Account</h3>
-              <p>Sign up as an employer in seconds. Add your company details and you're ready to go.</p>
+              <h3>{t('forEmployers.createAccount')}</h3>
+              <p>{t('forEmployers.createAccountDesc')}</p>
             </div>
           </div>
           <div className="step-arrow">→</div>
           <div className="step-card">
             <div className="step-number">2</div>
             <div className="step-content">
-              <h3>Post Your Jobs</h3>
-              <p>Create detailed job listings with descriptions, requirements, salary, and location.</p>
+              <h3>{t('forEmployers.postJobs')}</h3>
+              <p>{t('forEmployers.postJobsDesc')}</p>
             </div>
           </div>
           <div className="step-arrow">→</div>
           <div className="step-card">
             <div className="step-number">3</div>
             <div className="step-content">
-              <h3>Review & Hire</h3>
-              <p>Receive applications, review candidates, and hire the perfect fit for your team.</p>
+              <h3>{t('forEmployers.reviewHire')}</h3>
+              <p>{t('forEmployers.reviewHireDesc')}</p>
             </div>
           </div>
         </div>
@@ -166,19 +167,19 @@ const ForEmployers = () => {
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-number">1000+</div>
-            <div className="stat-label">Active Job Seekers</div>
+            <div className="stat-label">{t('forEmployers.activeJobSeekers')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">500+</div>
-            <div className="stat-label">Jobs Posted</div>
+            <div className="stat-label">{t('forEmployers.jobsPosted')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">95%</div>
-            <div className="stat-label">Satisfaction Rate</div>
+            <div className="stat-label">{t('forEmployers.satisfactionRate')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">24/7</div>
-            <div className="stat-label">Platform Access</div>
+            <div className="stat-label">{t('forEmployers.platformAccess')}</div>
           </div>
         </div>
       </section>
@@ -186,10 +187,10 @@ const ForEmployers = () => {
       {/* CTA Section */}
       <section className="cta-section employer-cta">
         <div className="cta-content">
-          <h2>Ready to Find Your Next Hire?</h2>
-          <p>Join hundreds of employers who trust SmartJob to build their teams</p>
+          <h2>{t('forEmployers.readyToHire')}</h2>
+          <p>{t('forEmployers.joinHundreds')}</p>
           <button className="btn btn-primary btn-lg" onClick={handleGetStarted}>
-            {role === "Employer" ? "Go to Dashboard" : "Get Started - It's Free"}
+            {role === "Employer" ? t('forEmployers.goToDashboard') : t('forEmployers.getStartedFree')}
           </button>
         </div>
       </section>

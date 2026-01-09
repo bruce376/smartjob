@@ -227,9 +227,10 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-
-      {/* Mobile Header */}
-      <header className="mobile-header">
+      {/* Main Content - Only Admin Home */}
+      <main className="admin-content">
+        <div className="admin-content-wrapper">
+          <AdminHome user={user} />
         <button 
           className="menu-toggle"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

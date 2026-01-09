@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import api from "../utils/api";
 import { getUserRole } from "../utils/auth";
 
 const MyApplications = () => {
+  const { t } = useTranslation();
   const [apps, setApps] = useState([]);
   const [loading, setLoading] = useState(true);
   const role = getUserRole();
@@ -23,7 +25,7 @@ const MyApplications = () => {
       setApps(res.data);
     } catch (err) {
       console.error(err);
-      alert("Error loading applications");
+      alert(t('myApplications.loadError'));
     } finally {
       setLoading(false);
     }
@@ -32,21 +34,21 @@ const MyApplications = () => {
   async function deleteApplication(appId, status) {
     // Prevent deletion if application is already reviewed
     if (status === "Accepted" || status === "Rejected") {
-      alert("Cannot delete an application that has already been reviewed by the employer.");
+      alert(t('myApplications.cannotDeleteReviewed'));
       return;
     }
 
-    if (!window.confirm("Are you sure you want to delete this application? This action cannot be undone.")) {
+    if (!window.confirm(t('myApplications.deleteConfirm'))) {
       return;
     }
 
     try {
       await api.delete(`/applications/${appId}`);
-      alert("Application deleted successfully!");
+      alert(t('myApplications.deleteSuccess'));
       fetchApplications(); // Refresh the list
     } catch (err) {
       console.error("Error deleting application:", err);
-      alert(err.response?.data?.message || "Error deleting application. Please try again.");
+      alert(err.response?.data?.message || t('myApplications.deleteError'));
     }
   }
 
@@ -54,10 +56,10 @@ const MyApplications = () => {
     return (
       <div className="auth-container">
         <div className="auth-card">
-          <h3>My Applications</h3>
-          <p>This page is for Job Seekers only.</p>
+          <h3>{t('myApplications.title')}</h3>
+          <p>{t('myApplications.jobSeekerOnly')}</p>
           <button className="btn btn-primary" onClick={() => navigate("/login")}>
-            Login as Job Seeker
+            {t('myApplications.loginAsJobSeeker')}
           </button>
         </div>
       </div>
@@ -68,7 +70,7 @@ const MyApplications = () => {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Loading your applications...</p>
+        <p>{t('myApplications.loading')}</p>
       </div>
     );
   }
@@ -76,17 +78,17 @@ const MyApplications = () => {
   return (
     <div className="applications-page-container">
       <div className="applications-page-header">
-        <h1>My Applications</h1>
-        <p>Track the status of your job applications</p>
+        <h1>{t('myApplications.title')}</h1>
+        <p>{t('myApplications.subtitle')}</p>
       </div>
 
       {apps.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">📭</div>
-          <h3>No applications yet</h3>
-          <p>Start applying to jobs to see them here</p>
+          <h3>{t('myApplications.noApplications')}</h3>
+          <p>{t('myApplications.startApplying')}</p>
           <button className="btn btn-primary" onClick={() => navigate("/jobs")}>
-            Browse Jobs
+            {t('myApplications.browseJobs')}
           </button>
         </div>
       ) : (
@@ -95,27 +97,27 @@ const MyApplications = () => {
             <div key={app._id} className="application-card">
               <div className="application-header">
                 <div>
-                  <h3 className="application-job-title">{app.job?.title || "Job Title"}</h3>
+                  <h3 className="application-job-title">{app.job?.title || t('myApplications.jobTitle')}</h3>
                   <p className="application-location">
-                    📍 {app.job?.location || "Location not specified"}
+                    📍 {app.job?.location || t('myApplications.locationNotSpecified')}
                   </p>
                 </div>
                 <span className={`status-badge status-${app.status?.toLowerCase()}`}>
-                  {app.status || "Pending"}
+                  {app.status || t('myApplications.pending')}
                 </span>
               </div>
 
               <div className="application-body">
                 {app.coverLetter && (
                   <div className="cover-letter">
-                    <strong>Your Cover Letter:</strong>
+                    <strong>{t('myApplications.yourCoverLetter')}:</strong>
                     <p>{app.coverLetter}</p>
                   </div>
                 )}
                 
                 <div className="application-meta">
                   <span className="application-date">
-                    📅 Applied: {new Date(app.createdAt).toLocaleDateString('en-US', {
+                    📅 {t('myApplications.applied')}: {new Date(app.createdAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
@@ -135,15 +137,15 @@ const MyApplications = () => {
                   onClick={() => navigate(`/jobs/${app.job?._id}`)}
                   disabled={!app.job?._id}
                 >
-                  View Job
+                  {t('myApplications.viewJob')}
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
                   onClick={() => deleteApplication(app._id, app.status)}
                   disabled={app.status === "Accepted" || app.status === "Rejected"}
-                  title={app.status === "Accepted" || app.status === "Rejected" ? "Cannot delete reviewed applications" : "Delete this application"}
+                  title={app.status === "Accepted" || app.status === "Rejected" ? t('myApplications.cannotDeleteReviewed') : t('myApplications.deleteThisApplication')}
                 >
-                  Delete Application
+                  {t('myApplications.deleteApplication')}
                 </button>
               </div>
             </div>

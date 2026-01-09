@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { isLoggedIn, getUserRole, getUserFromToken } from '../utils/auth';
 import { logout } from '../services/authService';
 import '../styles/ProfileDropdown.css';
@@ -31,11 +32,12 @@ const DropdownItem = ({ to, onClick, icon, children }) => {
 };
 
 const ProfileDropdown = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
   const user = getUserFromToken();
   const role = getUserRole();
-  const navigate = useNavigate();
 
   const handleLogout = useCallback(() => {
     logout();
@@ -92,7 +94,7 @@ const ProfileDropdown = () => {
               {user?.email || ''}
             </div>
             <div className="user-role">
-              {role === 'JobSeeker' ? 'Job Seeker' : 'Employer'}
+              {role === 'JobSeeker' ? t('nav.jobSeeker') : t('nav.employer')}
             </div>
           </div>
           
@@ -103,7 +105,7 @@ const ProfileDropdown = () => {
             icon="⚙️"
             onClick={() => setIsOpen(false)}
           >
-            Account Settings
+            {t('nav.settings')}
           </DropdownItem>
           
           {role === 'JobSeeker' && (
@@ -112,7 +114,7 @@ const ProfileDropdown = () => {
               icon="📄"
               onClick={() => setIsOpen(false)}
             >
-              My CV Profile
+              {t('nav.profile')}
             </DropdownItem>
           )}
           
@@ -123,7 +125,7 @@ const ProfileDropdown = () => {
             onClick={handleLogout}
           >
             <span className="dropdown-icon">🚪</span>
-            <span className="dropdown-text">Logout</span>
+            <span className="dropdown-text">{t('nav.logout')}</span>
           </button>
         </div>
       )}

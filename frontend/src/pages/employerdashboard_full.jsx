@@ -173,10 +173,10 @@ const EmployerDashboard = () => {
     return (
       <div className="auth-container">
         <div className="auth-card">
-          <h3>Employer Dashboard</h3>
-          <p>You must be signed in as an Employer to access this page.</p>
+          <h3>{t('common.employerDashboard')}</h3>
+          <p>{t('common.employerDashboardDesc')}</p>
           <button className="btn btn-primary" onClick={() => navigate("/login")}>
-            Login
+            {t('common.login')}
           </button>
         </div>
       </div>
@@ -235,14 +235,14 @@ const EmployerDashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Employer Dashboard</h1>
-        <p>Manage your job postings and applications</p>
+        <h1>{t('common.employerDashboard')}</h1>
+        <p>{t('common.manageJobPostings')}</p>
       </div>
 
       <div className="employer-toolbar">
         <div className="toolbar-left">
-          <h2>Job Postings</h2>
-          <p>View, create, and manage your jobs in one place.</p>
+          <h2>{t('common.jobPostings')}</h2>
+          <p>{t('common.jobPostingsDesc')}</p>
         </div>
         <div className="toolbar-actions">
           <button
@@ -276,7 +276,7 @@ const EmployerDashboard = () => {
       <div className="dashboard-content">
         {activeTab === "jobs" && (
           <div className="my-jobs-section">
-            <h2>My Posted Jobs</h2>
+            <h2>{t('common.myPostedJobs')}</h2>
             {loadingJobs ? (
               <div className="loading-container">
                 <div className="spinner"></div>
@@ -285,10 +285,10 @@ const EmployerDashboard = () => {
             ) : myJobs.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-icon">📋</div>
-                <h3>No jobs posted yet</h3>
-                <p>Start by posting your first job</p>
+                <h3>{t('common.noJobsPostedYet')}</h3>
+                <p>{t('common.startByPostingFirstJob')}</p>
                 <button className="btn btn-primary" onClick={() => setIsCreateModalOpen(true)}>
-                  Create Job
+                  {t('common.createJob')}
                 </button>
               </div>
             ) : (
@@ -340,16 +340,16 @@ const EmployerDashboard = () => {
         {activeTab === "applications" && (
           <div className="applications-section">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2>Job Applications</h2>
+              <h2>{t('common.jobApplications')}</h2>
               <button className="btn btn-secondary" onClick={fetchApplications}>
-                🔄 Refresh
+                🔄 {t('common.refresh')}
               </button>
             </div>
             {applications.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-icon">📭</div>
-                <h3>No applications yet</h3>
-                <p>Applications will appear here when candidates apply</p>
+                <h3>{t('common.noApplicationsYet')}</h3>
+                <p>{t('common.applicationsWillAppearHere')}</p>
               </div>
             ) : (
               <div className="applications-list">

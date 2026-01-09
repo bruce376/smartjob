@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
 import Register from "./pages/register.jsx";
@@ -13,8 +14,11 @@ import ForJobSeekers from "./pages/ForJobSeekers.jsx";
 import CVProfile from "./pages/CVProfile.jsx";
 import Settings from "./pages/Settings.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import Messages from "./pages/Messages.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Logo from "./components/Logo.jsx";
 import ProfileDropdown from "./components/ProfileDropdown";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import About from "./pages/About.jsx";
 import { isLoggedIn, getUserRole, getUserFromToken } from "./utils/auth";
 
@@ -26,6 +30,7 @@ import "./styles/embedded.css";
 import { isInIframe, updatePageTitle } from "./utils/wordpressIntegration";
 
 function Navigation() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const loggedIn = isLoggedIn();
   const role = getUserRole();
@@ -46,56 +51,109 @@ function Navigation() {
           <Logo size="small" />
         </Link>
 
-        <div className="nav-links">
-          <Link to={homeHref} className="nav-link">Home</Link>
-          
-          {/* Show landing pages only when NOT logged in */}
-          {!loggedIn && (
-            <>
-              <Link to="/for-employers" className="nav-link">For Employers</Link>
-              <Link to="/for-job-seekers" className="nav-link">For Job Seekers</Link>
-            </>
-          )}
-          
-          {/* Job Seeker Navigation */}
-          {loggedIn && role === "JobSeeker" && (
-            <>
-              <Link to="/jobs" className="nav-link">Jobs</Link>
-              <Link to="/cv-profile" className="nav-link">📄 My CV</Link>
-              <Link to="/my-applications" className="nav-link">My Applications</Link>
-            </>
-          )}
-          
-          {/* Employer Navigation */}
-          {loggedIn && role === "Employer" && (
-            <>
-              <Link to="/jobs" className="nav-link">Jobs</Link>
-              <Link to="/employer" className="nav-link">Dashboard</Link>
-            </>
-          )}
-          
-          {/* Admin Navigation */}
-          {loggedIn && role === "Admin" && (
-            <>
-              <Link to="/admin?tab=dashboard" className="nav-link">🛡️ Admin Dashboard</Link>
-            </>
-          )}
-          
-          {/* Not logged in - show Jobs link */}
-          {!loggedIn && (
-            <Link to="/jobs" className="nav-link">Jobs</Link>
-          )}
+        <div className="nav-center">
+          {/* Main Navigation Links */}
+          <div className="nav-main-links">
+            <Link to={homeHref} className="nav-link">
+              <span className="nav-icon">🏠</span>
+              <span className="nav-text">{t('nav.home')}</span>
+            </Link>
+            
+            {/* Show landing pages only when NOT logged in */}
+            {!loggedIn && (
+              <>
+                <Link to="/for-employers" className="nav-link">
+                  <span className="nav-icon">👥</span>
+                  <span className="nav-text">{t('nav.forEmployers')}</span>
+                </Link>
+                <Link to="/for-job-seekers" className="nav-link">
+                  <span className="nav-icon">💼</span>
+                  <span className="nav-text">{t('nav.forJobSeekers')}</span>
+                </Link>
+              </>
+            )}
+            
+            {/* Job Seeker Navigation */}
+            {loggedIn && role === "JobSeeker" && (
+              <>
+                <Link to="/jobs" className="nav-link">
+                  <span className="nav-icon">📋</span>
+                  <span className="nav-text">{t('nav.jobs')}</span>
+                </Link>
+                <Link to="/cv-profile" className="nav-link">
+                  <span className="nav-icon">📄</span>
+                  <span className="nav-text">{t('nav.profile')}</span>
+                </Link>
+                <Link to="/my-applications" className="nav-link">
+                  <span className="nav-icon">📊</span>
+                  <span className="nav-text">{t('nav.applications')}</span>
+                </Link>
+                <Link to="/messages" className="nav-link">
+                  <span className="nav-icon">💬</span>
+                  <span className="nav-text">{t('nav.messages')}</span>
+                </Link>
+              </>
+            )}
+            
+            {/* Employer Navigation */}
+            {loggedIn && role === "Employer" && (
+              <>
+                <Link to="/jobs" className="nav-link">
+                  <span className="nav-icon">📋</span>
+                  <span className="nav-text">{t('nav.jobs')}</span>
+                </Link>
+                <Link to="/employer" className="nav-link">
+                  <span className="nav-icon">📊</span>
+                  <span className="nav-text">{t('nav.dashboard')}</span>
+                </Link>
+                <Link to="/messages" className="nav-link">
+                  <span className="nav-icon">💬</span>
+                  <span className="nav-text">{t('nav.messages')}</span>
+                </Link>
+              </>
+            )}
+            
+            {/* Admin Navigation */}
+            {loggedIn && role === "Admin" && (
+              <>
+                <Link to="/admin?tab=dashboard" className="nav-link">
+                  <span className="nav-icon">🛡️</span>
+                  <span className="nav-text">{t('nav.dashboard')}</span>
+                </Link>
+                <Link to="/messages" className="nav-link">
+                  <span className="nav-icon">💬</span>
+                  <span className="nav-text">{t('nav.messages')}</span>
+                </Link>
+              </>
+            )}
+            
+            {/* Always show About link */}
+            <Link to="/about" className="nav-link">
+              <span className="nav-icon">ℹ️</span>
+              <span className="nav-text">{t('nav.about')}</span>
+            </Link>
+          </div>
+        </div>
 
-          {/* Always show About link */}
-          <Link to="/about" className="nav-link">About</Link>
+        {/* Right Side Actions */}
+        <div className="nav-actions">
+          {/* Language Switcher */}
+          <LanguageSwitcher />
           
+          {/* Auth Buttons */}
           {loggedIn ? (
             <ProfileDropdown />
           ) : (
-            <>
-              <Link to="/login" className="btn btn-outline btn-sm">Login</Link>
-              <Link to="/register" className="btn btn-primary btn-sm">Sign Up</Link>
-            </>
+            <div className="nav-auth-buttons">
+              <Link to="/login" className="btn btn-outline btn-sm">
+                <span className="btn-icon">🔐</span>
+                <span className="btn-text">{t('nav.login')}</span>
+              </Link>
+              <Link to="/register" className="btn btn-primary btn-sm">
+                <span className="btn-icon">✨</span>
+                <span className="btn-text">{t('nav.signup')}</span>
+              </Link>
+            </div>
           )}
         </div>
       </div>
@@ -146,7 +204,7 @@ function App() {
   }, [embedded]);
 
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <RouteChangeListener />
       <div className={`app ${embedded ? 'embedded-app' : ''}`}>
         <Navigation />
@@ -166,6 +224,7 @@ function App() {
             <Route path="/employer" element={<EmployerDashboard />} />
             <Route path="/cv-profile" element={<CVProfile />} />
             <Route path="/my-applications" element={<MyApplications />} />
+            <Route path="/messages" element={<ErrorBoundary><Messages /></ErrorBoundary>} />
             <Route path="/admin/*" element={<AdminDashboard />} />
           </Routes>
         </main>

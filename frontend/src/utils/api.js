@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // Ensure the base URL is properly formatted
-let API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://smartjob-3.onrender.com';
+let API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 // Remove any trailing slashes and then ensure it doesn't end with /api to prevent duplicates
 API_BASE_URL = API_BASE_URL.replace(/\/+$/, '');
 // Only add /api if it's not already in the URL
@@ -71,20 +71,28 @@ api.interceptors.response.use(
       console.warn('[API] 401 Unauthorized:', url);
       
       // Don't automatically log out - let the auth utilities handle token validation
-      // Just reject the promise with an error message
+      // Just reject promise with an error message
       return Promise.reject(new Error('Authentication required. Please log in.'));
     }
 
     // Handle 403 Forbidden
-    if (error.response.status === 403) {
+    if (error.response?.status === 403) {
       return Promise.reject({
         message: 'You do not have permission to perform this action.',
         isForbidden: true,
-        data: error.response.data
+        data: error.response?.data
       });
     }
 
-    // For other errors, just reject with the error
+    // Handle undefined response
+    if (!error.response) {
+      return Promise.reject({
+        message: 'An unknown error occurred.',
+        error: error.message,
+      });
+    }
+
+    // For other errors, just reject with error
     return Promise.reject(error);
   }
 );

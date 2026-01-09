@@ -286,8 +286,8 @@ router.post("/login", async (req, res) => {
         }
 
         // Generate JWT
-        // Check if the selected role matches the user's actual role
-        if (role && user.role !== role) {
+        // Check if selected role matches the user's actual role (case-insensitive)
+        if (role && user.role.toLowerCase() !== role.toLowerCase()) {
             console.log(`[LOGIN ERROR] Role mismatch - User ${user.email} has role ${user.role}, tried to login as ${role}`);
             return res.status(403).json({
                 success: false,

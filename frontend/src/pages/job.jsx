@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import api from "../utils/api";
+import { getUserFromToken } from "../utils/auth";
+import JobMessageModal from "../components/JobMessageModal";
 import "./job.css";
 
 const JobDetail = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  
+  const user = getUserFromToken();
 
   useEffect(() => {
     async function fetchJob() {
@@ -40,6 +47,14 @@ const JobDetail = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [id]);
 
+  const handleMessageEmployer = () => {
+    setShowMessageModal(true);
+  };
+
+  const handleMessageSent = () => {
+    console.log('Message sent successfully');
+  };
+
   if (loading) {
     return (
       <div className="job-detail-container">
@@ -56,10 +71,10 @@ const JobDetail = () => {
       <div className="job-detail-container">
         <div className="error-state">
           <div className="error-icon">⚠️</div>
-          <h3>Unable to load job</h3>
+          <h3>{t('jobDetail.unableToLoad')}</h3>
           <p>{error}</p>
           <button className="btn btn-primary" onClick={() => navigate(-1)}>
-            Go Back
+            {t('jobDetail.goBack')}
           </button>
         </div>
       </div>
@@ -71,9 +86,9 @@ const JobDetail = () => {
       <div className="job-detail-container">
         <div className="empty-state">
           <div className="empty-icon">📭</div>
-          <h3>Job not found</h3>
+          <h3>{t('jobDetail.notFound')}</h3>
           <button className="btn btn-primary" onClick={() => navigate("/jobs")}>
-            Browse Jobs
+            {t('jobDetail.browseJobs')}
           </button>
         </div>
       </div>
@@ -83,28 +98,28 @@ const JobDetail = () => {
   return (
     <div className="job-detail-container">
       <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)}>
-        ← Back
+        ← {t('jobDetail.back')}
       </button>
 
       <div className="job-detail-header">
         <h1>{job.title}</h1>
         <div className="job-meta">
-          <span className="job-location">📍 {job.location || "Remote"}</span>
+          <span className="job-location">📍 {job.location || t('jobDetail.remote')}</span>
           {job.salary && <span className="job-salary">💰 {job.salary}</span>}
         </div>
       </div>
 
       {job.category && <span className="job-category">{job.category}</span>}
-
+      
       <section className="job-section">
-        <h2>About this role</h2>
-        <p>{job.description || "No description provided."}</p>
+        <h2>{t('jobDetail.aboutRole')}</h2>
+        <p>{job.description || t('jobDetail.noDescription')}</p>
       </section>
 
       <section className="job-section job-requirements">
-        <h2>📋 Job Requirements</h2>
+        <h2>📋 {t('jobDetail.requirements')}</h2>
         {!job.requirements || job.requirements.length === 0 ? (
-          <p className="no-requirements">No specific requirements listed.</p>
+          <p className="no-requirements">{t('jobDetail.noRequirements')}</p>
         ) : (
           <div className="requirements-grid">
             {job.requirements.map((item, index) => {
@@ -124,7 +139,7 @@ const JobDetail = () => {
 
       {job.responsibilities?.length > 0 && (
         <section className="job-section">
-          <h2>Responsibilities</h2>
+          <h2>{t('jobDetail.responsibilities')}</h2>
           <ul className="job-list">
             {job.responsibilities.map((item, index) => (
               <li key={index}>{item}</li>
@@ -134,15 +149,35 @@ const JobDetail = () => {
       )}
 
       <section className="job-section">
-        <h2>Company</h2>
-        <p>{job.employer?.name || "Company information not available."}</p>
+        <h2>{t('jobDetail.company')}</h2>
+        <p>{job.employer?.name || t('jobDetail.companyNotAvailable')}</p>
       </section>
 
       <div className="job-detail-actions">
         <button className="btn btn-primary" onClick={() => navigate("/jobs")}>
-          Browse more jobs
+          {t('jobDetail.browseMoreJobs')}
         </button>
+        
+        {/* Message button for logged-in users */}
+        {user && job.employer && (
+          <button
+            className="btn btn-outline message-btn"
+            onClick={handleMessageEmployer}
+            title="Message employer about this job"
+          >
+            💬 Message Employer
+          </button>
+        )}
       </div>
+      
+      {/* Job Message Modal */}
+      <JobMessageModal
+        job={job}
+        isOpen={showMessageModal}
+        onClose={() => setShowMessageModal(false)}
+        user={user}
+        onMessageSent={handleMessageSent}
+      />
     </div>
   );
 };

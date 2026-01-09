@@ -3,9 +3,7 @@ import {
   FaBriefcase,
   FaUsers,
   FaFileAlt,
-  FaCog,
   FaChartLine,
-  FaShieldAlt,
   FaCheckCircle,
 } from 'react-icons/fa';
 import './AdminHome.css';
@@ -40,21 +38,7 @@ const AdminHome = ({ user, onNavigate }) => {
     },
   ];
 
-  const platformHighlights = [
-    {
-      id: 'security',
-      title: 'Security first',
-      description: 'Robust role-based access control keeps sensitive data protected.',
-      icon: <FaShieldAlt />,
-    },
-    {
-      id: 'automation',
-      title: 'Powerful automation',
-      description: 'Activity logging provides a full audit trail for every critical action.',
-      icon: <FaCog />,
-    },
-  ];
-
+  
   const nextSteps = [
     'Review latest activity logs to stay ahead of critical changes.',
     'Audit user roles and permissions to ensure least-privilege access.',
@@ -110,24 +94,7 @@ const AdminHome = ({ user, onNavigate }) => {
         </div>
       </section>
 
-      <section className="admin-home-section">
-        <div className="section-header">
-          <h2>Platform highlights</h2>
-          <p>Stay confident knowing the essentials are covered.</p>
-        </div>
-        <div className="highlights-grid">
-          {platformHighlights.map((highlight) => (
-            <div key={highlight.id} className="highlight-card">
-              <span className="card-icon">{highlight.icon}</span>
-              <div className="card-content">
-                <h3>{highlight.title}</h3>
-                <p>{highlight.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
+      
       <section className="admin-home-section">
         <div className="section-header">
           <h2>Recommended next steps</h2>

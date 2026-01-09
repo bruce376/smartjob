@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { getUserRole, isLoggedIn } from "../utils/auth";
 import LoginModal from "../components/LoginModal";
 
 const ForJobSeekers = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const role = getUserRole();
   const [showSignupModal, setShowSignupModal] = useState(false);
@@ -14,7 +16,7 @@ const ForJobSeekers = () => {
     } else if (isLoggedIn()) {
       navigate("/profile", {
         state: {
-          message: "Switch to a job seeker account to start your search.",
+          message: t('forJobSeekers.switchToJobSeeker'),
           showUpgradePrompt: true,
         },
       });
@@ -29,7 +31,7 @@ const ForJobSeekers = () => {
     } else {
       navigate("/profile", {
         state: {
-          message: "Switch to a job seeker account to start your search.",
+          message: t('forJobSeekers.switchToJobSeeker'),
           showUpgradePrompt: true,
         },
       });
@@ -43,23 +45,22 @@ const ForJobSeekers = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-title">
-              Discover Your <span className="highlight">Dream Job</span> Today
+              {t('forJobSeekers.heroTitle')}
             </h1>
             <p className="hero-subtitle">
-              Browse thousands of job opportunities, apply with one click, and track your applications. 
-              Your next career move starts here.
+              {t('forJobSeekers.heroSubtitle')}
             </p>
             <div className="hero-buttons">
               <button className="btn btn-primary btn-lg" onClick={handleGetStarted}>
-                {role === "JobSeeker" ? "Browse Jobs" : "Start Your Job Search"}
+                {role === "JobSeeker" ? t('forJobSeekers.browseJobs') : t('forJobSeekers.startJobSearch')}
               </button>
               {role === "JobSeeker" && (
                 <button className="btn btn-outline btn-lg" onClick={() => navigate("/cv-profile")}>
-                  📄 Manage My CV
+                  📄 {t('forJobSeekers.manageCV')}
                 </button>
               )}
               <button className="btn btn-secondary btn-lg" onClick={() => navigate("/jobs")}>
-                View All Jobs
+                {t('forJobSeekers.viewAllJobs')}
               </button>
             </div>
           </div>
@@ -67,18 +68,18 @@ const ForJobSeekers = () => {
             <div className="hero-illustration jobseeker-illustration">
               <div className="illustration-card">
                 <div className="card-icon">🔍</div>
-                <h3>Search Jobs</h3>
-                <p>Find opportunities that match your skills</p>
+                <h3>{t('forJobSeekers.searchJobs')}</h3>
+                <p>{t('forJobSeekers.findOpportunities')}</p>
               </div>
               <div className="illustration-card">
                 <div className="card-icon">📝</div>
-                <h3>Easy Apply</h3>
-                <p>Apply with just a few clicks</p>
+                <h3>{t('forJobSeekers.easyApply')}</h3>
+                <p>{t('forJobSeekers.applyFewClicks')}</p>
               </div>
               <div className="illustration-card">
                 <div className="card-icon">🎉</div>
-                <h3>Get Hired</h3>
-                <p>Land your dream job faster</p>
+                <h3>{t('forJobSeekers.getHired')}</h3>
+                <p>{t('forJobSeekers.landDreamJob')}</p>
               </div>
             </div>
           </div>
@@ -88,39 +89,39 @@ const ForJobSeekers = () => {
       {/* Features Section */}
       <section className="features-section">
         <div className="section-header">
-          <h2>Why Job Seekers Love SmartJob</h2>
-          <p>Everything you need to find your perfect job</p>
+          <h2>{t('forJobSeekers.whyLove')}</h2>
+          <p>{t('forJobSeekers.everythingNeeded')}</p>
         </div>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">🎯</div>
-            <h3>Personalized Job Matches</h3>
-            <p>Find jobs that match your skills, experience, and career goals. Filter by location, salary, and job type.</p>
+            <h3>{t('forJobSeekers.personalizedMatches')}</h3>
+            <p>{t('forJobSeekers.personalizedMatchesDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">⚡</div>
-            <h3>Quick Applications</h3>
-            <p>Apply for jobs in seconds. No complicated forms - just your profile and a cover letter.</p>
+            <h3>{t('forJobSeekers.quickApplications')}</h3>
+            <p>{t('forJobSeekers.quickApplicationsDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">📊</div>
-            <h3>Track Your Applications</h3>
-            <p>See all your applications in one place. Know exactly where you stand with each employer.</p>
+            <h3>{t('forJobSeekers.trackApplications')}</h3>
+            <p>{t('forJobSeekers.trackApplicationsDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">🔔</div>
-            <h3>Instant Notifications</h3>
-            <p>Get notified when employers review your application. Never miss an opportunity.</p>
+            <h3>{t('forJobSeekers.instantNotifications')}</h3>
+            <p>{t('forJobSeekers.instantNotificationsDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">💼</div>
-            <h3>Diverse Opportunities</h3>
-            <p>From startups to enterprises, full-time to remote - find jobs across all industries and types.</p>
+            <h3>{t('forJobSeekers.diverseOpportunities')}</h3>
+            <p>{t('forJobSeekers.diverseOpportunitiesDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">🔐</div>
-            <h3>Privacy Protected</h3>
-            <p>Your information is secure. Control what employers see and when they see it.</p>
+            <h3>{t('forJobSeekers.privacyProtected')}</h3>
+            <p>{t('forJobSeekers.privacyProtectedDesc')}</p>
           </div>
         </div>
       </section>
@@ -128,31 +129,31 @@ const ForJobSeekers = () => {
       {/* How It Works Section */}
       <section className="how-it-works-section">
         <div className="section-header">
-          <h2>How It Works</h2>
-          <p>Land your dream job in 3 simple steps</p>
+          <h2>{t('forJobSeekers.howItWorks')}</h2>
+          <p>{t('forJobSeekers.simpleSteps')}</p>
         </div>
         <div className="steps-container">
           <div className="step-card">
             <div className="step-number">1</div>
             <div className="step-content">
-              <h3>Create Your Profile</h3>
-              <p>Sign up as a job seeker and create your profile. It takes less than a minute.</p>
+              <h3>{t('forJobSeekers.createProfile')}</h3>
+              <p>{t('forJobSeekers.createProfileDesc')}</p>
             </div>
           </div>
           <div className="step-arrow">→</div>
           <div className="step-card">
             <div className="step-number">2</div>
             <div className="step-content">
-              <h3>Browse & Apply</h3>
-              <p>Search for jobs that match your skills. Apply with one click and add a personalized cover letter.</p>
+              <h3>{t('forJobSeekers.browseApply')}</h3>
+              <p>{t('forJobSeekers.browseApplyDesc')}</p>
             </div>
           </div>
           <div className="step-arrow">→</div>
           <div className="step-card">
             <div className="step-number">3</div>
             <div className="step-content">
-              <h3>Get Hired</h3>
-              <p>Track your applications and get notified when employers respond. Land your dream job!</p>
+              <h3>{t('forJobSeekers.getHired')}</h3>
+              <p>{t('forJobSeekers.getHiredDesc')}</p>
             </div>
           </div>
         </div>
@@ -161,39 +162,39 @@ const ForJobSeekers = () => {
       {/* Job Categories Section */}
       <section className="categories-section">
         <div className="section-header">
-          <h2>Popular Job Categories</h2>
-          <p>Explore opportunities across various industries</p>
+          <h2>{t('forJobSeekers.popularCategories')}</h2>
+          <p>{t('forJobSeekers.exploreIndustries')}</p>
         </div>
         <div className="categories-grid">
           <div className="category-card" onClick={() => navigate("/jobs")}>
             <div className="category-icon">💻</div>
-            <h3>Technology</h3>
-            <p>Software, IT, Development</p>
+            <h3>{t('forJobSeekers.technology')}</h3>
+            <p>{t('forJobSeekers.technologyDesc')}</p>
           </div>
           <div className="category-card" onClick={() => navigate("/jobs")}>
             <div className="category-icon">🎨</div>
-            <h3>Design</h3>
-            <p>UI/UX, Graphics, Creative</p>
+            <h3>{t('forJobSeekers.design')}</h3>
+            <p>{t('forJobSeekers.designDesc')}</p>
           </div>
           <div className="category-card" onClick={() => navigate("/jobs")}>
             <div className="category-icon">📈</div>
-            <h3>Marketing</h3>
-            <p>Digital, Content, SEO</p>
+            <h3>{t('forJobSeekers.marketing')}</h3>
+            <p>{t('forJobSeekers.marketingDesc')}</p>
           </div>
           <div className="category-card" onClick={() => navigate("/jobs")}>
             <div className="category-icon">💼</div>
-            <h3>Business</h3>
-            <p>Management, Sales, Finance</p>
+            <h3>{t('forJobSeekers.business')}</h3>
+            <p>{t('forJobSeekers.businessDesc')}</p>
           </div>
           <div className="category-card" onClick={() => navigate("/jobs")}>
             <div className="category-icon">🏥</div>
-            <h3>Healthcare</h3>
-            <p>Medical, Nursing, Therapy</p>
+            <h3>{t('forJobSeekers.healthcare')}</h3>
+            <p>{t('forJobSeekers.healthcareDesc')}</p>
           </div>
           <div className="category-card" onClick={() => navigate("/jobs")}>
             <div className="category-icon">🎓</div>
-            <h3>Education</h3>
-            <p>Teaching, Training, Research</p>
+            <h3>{t('forJobSeekers.education')}</h3>
+            <p>{t('forJobSeekers.educationDesc')}</p>
           </div>
         </div>
       </section>
@@ -203,19 +204,19 @@ const ForJobSeekers = () => {
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-number">5000+</div>
-            <div className="stat-label">Active Jobs</div>
+            <div className="stat-label">{t('forJobSeekers.activeJobs')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">200+</div>
-            <div className="stat-label">Companies Hiring</div>
+            <div className="stat-label">{t('forJobSeekers.companiesHiring')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">10k+</div>
-            <div className="stat-label">Successful Hires</div>
+            <div className="stat-label">{t('forJobSeekers.successfulHires')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">98%</div>
-            <div className="stat-label">User Satisfaction</div>
+            <div className="stat-label">{t('forJobSeekers.userSatisfaction')}</div>
           </div>
         </div>
       </section>
@@ -223,10 +224,10 @@ const ForJobSeekers = () => {
       {/* CTA Section */}
       <section className="cta-section jobseeker-cta">
         <div className="cta-content">
-          <h2>Ready to Start Your Job Search?</h2>
-          <p>Join thousands of job seekers who found their dream jobs on SmartJob</p>
+          <h2>{t('forJobSeekers.readyToSearch')}</h2>
+          <p>{t('forJobSeekers.joinThousands')}</p>
           <button className="btn btn-primary btn-lg" onClick={handleGetStarted}>
-            {role === "JobSeeker" ? "Browse Jobs Now" : "Create Free Account"}
+            {role === "JobSeeker" ? t('forJobSeekers.browseJobsNow') : t('forJobSeekers.createFreeAccount')}
           </button>
         </div>
       </section>

@@ -89,6 +89,7 @@ const userRoutes = require('./routes/userRoutes');
 const applicationRoutes = require('./routes/application');
 const adminRoutes = require('./routes/admin');
 const aiRoutes = require('./routes/aiRoutes');
+const messageRoutes = require('./routes/messages');
 
 // Mount routes
 router.use('/auth', authRoutes);
@@ -97,6 +98,7 @@ router.use('/users', userRoutes);
 router.use('/applications', applicationRoutes);
 router.use('/admin', adminRoutes);
 router.use('/ai', aiRoutes);
+router.use('/messages', messageRoutes);
 
 // Test API route
 router.get('/', (req, res) => {
@@ -110,6 +112,7 @@ router.get('/', (req, res) => {
       applications: '/api/applications',
       admin: '/api/admin',
       ai: '/api/ai',
+      messages: '/api/messages',
       health: '/api/health'
     }
   });

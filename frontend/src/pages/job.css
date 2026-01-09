@@ -134,6 +134,21 @@
   gap: 1rem;
   padding: 2rem 0;
   border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+.message-btn {
+  background: white;
+  color: #007bff;
+  border: 2px solid #007bff;
+  transition: all 0.2s ease;
+}
+
+.message-btn:hover {
+  background: #007bff;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
 /* Responsive Design */

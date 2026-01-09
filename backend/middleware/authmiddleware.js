@@ -18,7 +18,8 @@ function auth(req, res, next) {
         };
         next();
     } catch (err) {
-        res.status(400).json({ message: "Invalid token" });
+        console.error('JWT Verification Error:', err.message);
+        res.status(401).json({ message: "Invalid token" });
     }
 }
 

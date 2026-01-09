@@ -18,7 +18,14 @@ router.post("/:jobId", auth, async (req, res) => {
 
         // Check if already applied
         const existing = await Application.findOne({ job: job._id, applicant: user._id });
-        if (existing) return res.status(400).json({ message: "You already applied for this job" });
+        if (existing && existing.status !== "Rejected") {
+            return res.status(400).json({ message: "You already applied for this job" });
+        }
+
+        // If there's a rejected application, delete it first
+        if (existing && existing.status === "Rejected") {
+            await Application.findByIdAndDelete(existing._id);
+        }
 
         const newApp = new Application({
             job: job._id,
@@ -166,6 +173,16 @@ router.put("/:id/status", auth, async (req, res) => {
         const validStatuses = ["Pending", "Reviewed", "Accepted", "Rejected"];
         if (!validStatuses.includes(status)) {
             return res.status(400).json({ message: "Invalid status" });
+        }
+
+        // Prevent changing status if already rejected
+        if (application.status === "Rejected") {
+            return res.status(400).json({ message: "Cannot change status of a rejected application" });
+        }
+
+        // Prevent changing from accepted to rejected
+        if (application.status === "Accepted" && status === "Rejected") {
+            return res.status(400).json({ message: "Cannot reject an already accepted application" });
         }
 
         application.status = status;

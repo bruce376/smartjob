@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FiUpload, FiTrash2, FiEye } from "react-icons/fi";
 import { uploadCV } from '../utils/api';
 import api from "../utils/api";
@@ -8,6 +9,7 @@ import { openFileInNewTab } from "../utils/fileHelpers";
 import "./CVProfile.css";
 
 const CVProfile = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const role = getUserRole();
   const user = getUserFromToken();
@@ -92,14 +94,14 @@ const CVProfile = () => {
                        file.name.endsWith('.pdf');
 
     if (!isValidType) {
-      alert('Please upload a valid PDF or Word document (PDF, DOC, or DOCX)');
+      alert(t('cvProfile.invalidFileType'));
       e.target.value = '';
       return;
     }
 
     // Check file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('File size should be less than 5MB');
+      alert(t('cvProfile.fileSizeError'));
       e.target.value = '';
       return;
     }
@@ -125,12 +127,12 @@ const CVProfile = () => {
         }));
       }
       
-      alert('CV uploaded successfully!');
+      alert(t('cvProfile.uploadSuccess'));
       setSelectedFile(null);
     } catch (err) {
       console.error('Error uploading CV:', err);
       
-      let errorMessage = 'Error uploading CV. Please try again.';
+      let errorMessage = t('cvProfile.uploadError');
       
       // Handle authentication errors
       if (err.message && err.message.includes('session has expired')) {
@@ -143,10 +145,10 @@ const CVProfile = () => {
           navigate('/login', { 
             state: { 
               from: window.location.pathname,
-              message: 'Please log in to continue'
+              message: t('cvProfile.loginToContinue')
             } 
           });
-        }, 1000);
+        }, 2000);
       } 
       // Use error message from the thrown error
       else if (err.message) {
@@ -207,15 +209,15 @@ const CVProfile = () => {
           localStorage.setItem('user', JSON.stringify(user));
         }
         
-        alert('CV deleted successfully');
+        alert(t('cvProfile.deleteSuccess'));
       } else {
-        throw new Error(res.data.message || 'Failed to delete CV');
+        throw new Error(res.data.message || t('cvProfile.deleteError'));
       }
     } catch (err) {
       console.error('Error deleting CV:', err);
       const errorMessage = err.response?.data?.message || 
                          err.message || 
-                         'Error deleting CV. Please try again.';
+                         t('cvProfile.deleteError');
       alert(errorMessage);
     } finally {
       setUploading(false);
@@ -238,10 +240,10 @@ const CVProfile = () => {
         resume: ''
       }));
       
-      alert('CV deleted successfully!');
+      alert(t('cvProfile.deleteSuccess'));
     } catch (err) {
       console.error('Error deleting CV:', err);
-      alert('Failed to delete CV. Please try again.');
+      alert(t('cvProfile.deleteError'));
     }
   };
 
@@ -257,23 +259,23 @@ const CVProfile = () => {
     <div className="cv-profile-container">
       <header className="cv-header">
         <div>
-          <h1>My CV Profile</h1>
-          <p className="text-muted">Upload and manage your CV document</p>
+          <h1>{t('cvProfile.title')}</h1>
+          <p className="text-muted">{t('cvProfile.subtitle')}</p>
         </div>
         <div className="cv-actions">
           <button 
             className="btn btn-outline"
             onClick={() => navigate('/my-applications')}
           >
-            My Applications
+            {t('cvProfile.myApplications')}
           </button>
         </div>
       </header>
 
       <section className="cv-section">
-        <h2>CV </h2>
+        <h2>{t('cvProfile.cvTitle')}</h2>
         <div className="form-group">
-          <label>Upload Your CV</label>
+          <label>{t('cvProfile.uploadLabel')}</label>
           <div className="cv-upload-container">
             <div className="file-input-wrapper">
               <input
@@ -286,10 +288,10 @@ const CVProfile = () => {
               />
               <label htmlFor="cv-upload" className="cv-upload-label">
                 <FiUpload className="mr-2" />
-                {uploading ? `Uploading... ${uploadProgress}%` : 'Choose File'}
+                {uploading ? `${t('cvProfile.uploading')} ${uploadProgress}%` : t('cvProfile.chooseFile')}
               </label>
               <span className="file-name">
-                {selectedFile ? selectedFile.name : (profile.resume ? 'Current file: ' + profile.resume.split('/').pop() : 'No file chosen')}
+                {selectedFile ? selectedFile.name : (profile.resume ? `${t('cvProfile.currentFile')} ${profile.resume.split('/').pop()}` : t('cvProfile.noFileChosen'))}
               </span>
             </div>
             
@@ -299,7 +301,7 @@ const CVProfile = () => {
                   type="button"
                   onClick={viewCV}
                   className="cv-action-btn view"
-                  title="View CV"
+                  title={t('cvProfile.viewCV')}
                 >
                   <FiEye />
                 </button>
@@ -307,17 +309,17 @@ const CVProfile = () => {
                   type="button"
                   onClick={deleteCV}
                   className="cv-action-btn delete"
-                  title="Delete CV"
+                  title={t('cvProfile.deleteCV')}
                   disabled={uploading}
                 >
                   <FiTrash2 />
                 </button>
-            </div>
-          )}
-        </div>
-        <p className="form-hint">
-          Accepted formats: PDF, DOC, DOCX (max 5MB). Your CV will be visible to employers.
-        </p>
+              </div>
+            )}
+          </div>
+          <p className="form-hint">
+            {t('cvProfile.formHint')}
+          </p>
         </div>
       </section>
       

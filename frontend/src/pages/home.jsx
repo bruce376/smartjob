@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { isLoggedIn, getUserRole } from "../utils/auth";
 import LoginModal from "../components/LoginModal";
+
 function Home() {
+  const { t } = useTranslation();
   const loggedIn = isLoggedIn();
   const role = getUserRole();
   const navigate = useNavigate();
@@ -111,33 +114,33 @@ function Home() {
       <section className="hero-section decorated-hero">
         <div className="hero-grid">
           <div className="hero-content">
-            <span className="hero-pill">Smarter career moves, delivered daily</span>
-            <h1 className="hero-title">Find Your Dream Job with Smart Insights & Human Support</h1>
+            <span className="hero-pill">{t('home.heroPill')}</span>
+            <h1 className="hero-title">{t('home.heroTitle')}</h1>
             <p className="hero-subtitle">
-              SmartJob connects ambitious professionals with vetted opportunities, real-time market data, and coaching tools that keep you interview-ready.
+              {t('home.heroSubtitle')}
             </p>
             <div className="hero-buttons">
               {!loggedIn ? (
                 <>
                   <Link to="/register" className="btn btn-primary btn-lg">
-                    Create Free Profile
+                    {t('home.createProfile')}
                   </Link>
                   <Link to="/jobs" className="btn btn-outline btn-lg hero-outline">
-                    Explore Open Roles
+                    {t('home.exploreJobs')}
                   </Link>
                 </>
               ) : role === "Employer" ? (
                 <Link to="/employer" className="btn btn-primary btn-lg">
-                  Post a Job
+                  {t('home.postJob')}
                 </Link>
               ) : (
                 <Link to="/jobs" className="btn btn-primary btn-lg">
-                  Continue Job Search
+                  {t('home.continueSearch')}
                 </Link>
               )}
             </div>
             <div className="hero-trust">
-              <span>Trusted by teams at</span>
+              <span>{t('home.trustedBy')}</span>
               <div className="hero-logos">
                 <span>NovaTech</span>
                 <span>Brightwave</span>
@@ -178,9 +181,9 @@ function Home() {
 
           <div className="hero-search-body">
             <h2>
-              Find your Future Job among
+              {t('home.findFutureJob')}
               <span> {heroStats[1].value} </span>
-              Open Positions
+              {t('home.openPositions')}
             </h2>
             <form className="hero-search-form" onSubmit={(e) => {
               e.preventDefault();
@@ -193,43 +196,43 @@ function Home() {
               });
             }}>
               <div className="hero-input">
-                <label htmlFor="search-keywords">Keywords</label>
+                <label htmlFor="search-keywords">{t('home.keywords')}</label>
                 <input
                   id="search-keywords"
                   type="text"
-                  placeholder="Job title, skills"
+                  placeholder={t('home.jobSkillsPlaceholder')}
                   value={searchKeywords}
                   onChange={(e) => setSearchKeywords(e.target.value)}
                 />
               </div>
               <div className="hero-input">
-                <label htmlFor="search-region">Regions</label>
+                <label htmlFor="search-region">{t('home.regions')}</label>
                 <select
                   id="search-region"
                   value={searchRegion}
                   onChange={(e) => setSearchRegion(e.target.value)}
                 >
-                  <option value="">Any location</option>
-                  <option value="Northern Province">Northern Province</option>
-                  <option value="Southern Province">Southern Province</option>
-                  <option value="Western Province">Western Province</option>
-                  <option value="Eastern Province">Eastern Province</option>
-                  <option value="Kigali City">Kigali City</option>
+                  <option value="">{t('home.anyLocation')}</option>
+                  <option value="Northern Province">{t('home.northernProvince')}</option>
+                  <option value="Southern Province">{t('home.southernProvince')}</option>
+                  <option value="Western Province">{t('home.westernProvince')}</option>
+                  <option value="Eastern Province">{t('home.easternProvince')}</option>
+                  <option value="Kigali City">{t('home.kigaliCity')}</option>
                 </select>
               </div>
               <div className="hero-input">
-                <label htmlFor="search-category">Job category</label>
+                <label htmlFor="search-category">{t('home.jobCategory')}</label>
                 <select
                   id="search-category"
                   value={searchCategory}
                   onChange={(e) => setSearchCategory(e.target.value)}
                 >
-                  <option value="">All categories</option>
-                  <option value="Technology">Technology</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Design">Design</option>
-                  <option value="Customer Success">Customer Success</option>
-                  <option value="Healthcare">Healthcare</option>
+                  <option value="">{t('home.allCategories')}</option>
+                  <option value="Technology">{t('home.technology')}</option>
+                  <option value="Marketing">{t('home.marketing')}</option>
+                  <option value="Design">{t('home.design')}</option>
+                  <option value="Customer Success">{t('home.customerSuccess')}</option>
+                  <option value="Healthcare">{t('home.healthcare')}</option>
                 </select>
               </div>
               <button type="submit" className="hero-search-button" aria-label="Search jobs">
@@ -258,13 +261,13 @@ function Home() {
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">🎯</div>
-            <h3>Smart Matching</h3>
-            <p>Our intelligent system matches you with the perfect opportunities based on your skills and preferences.</p>
+            <h3>{t('common.smartMatching')}</h3>
+            <p>{t('common.smartMatchingDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">⚡</div>
-            <h3>Quick Apply</h3>
-            <p>Apply to multiple jobs with just a few clicks. No more repetitive form filling.</p>
+            <h3>{t('common.quickApply')}</h3>
+            <p>{t('common.quickApplyDesc')}</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">🔒</div>
@@ -273,16 +276,16 @@ function Home() {
           </div>
           <div className="feature-card">
             <div className="feature-icon">📊</div>
-            <h3>Track Progress</h3>
-            <p>Monitor your applications and get real-time updates on your job search.</p>
+            <h3>{t('common.trackProgress')}</h3>
+            <p>{t('common.trackProgressDesc')}</p>
           </div>
         </div>
       </section>
 
       <section className="questions-section">
         <div className="section-header">
-          <h2>Featured Questions</h2>
-          <p>Get quick answers to the most common job search challenges</p>
+          <h2>{t('common.featuredQuestions')}</h2>
+          <p>{t('common.featuredQuestionsDesc')}</p>
         </div>
         <div className="questions-grid">
           {featuredQuestions.map((item) => (
@@ -297,8 +300,8 @@ function Home() {
       <section className="journey-section">
         <div className="journey-wrapper">
           <div className="journey-header">
-            <h2>Your SmartJob Journey</h2>
-            <p>From first discovery to final offer, we guide every milestone.</p>
+            <h2>{t('common.yourSmartJobJourney')}</h2>
+            <p>{t('common.yourSmartJobJourneyDesc')}</p>
           </div>
           <div className="journey-timeline">
             {journeySteps.map((step) => (
@@ -314,8 +317,8 @@ function Home() {
 
       <section className="success-section" id="success-stories">
         <div className="section-header">
-          <h2>Success Stories Fresh from the Community</h2>
-          <p>Real professionals securing remote and hybrid roles with SmartJob</p>
+          <h2>{t('common.successStories')}</h2>
+          <p>{t('common.successStoriesDesc')}</p>
         </div>
         <div className="testimonial-widget">
           <div className="testimonial-top">
@@ -355,8 +358,8 @@ function Home() {
 
       <section className="cta-section cta-section--home">
         <div className="cta-content">
-          <h2>Stay ahead with SmartJob</h2>
-          <p>Track roles, collaborate with mentors, and manage every application in one place</p>
+          <h2>{t('common.stayAhead')}</h2>
+          <p>{t('common.stayAheadDesc')}</p>
           {!loggedIn && (
             <Link to="/register" className="btn btn-primary btn-lg">
               Create Free Account
