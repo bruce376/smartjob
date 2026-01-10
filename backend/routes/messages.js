@@ -147,11 +147,15 @@ router.get('/available-users', auth, async (req, res) => {
 // POST /api/messages/send - Send a message
 router.post('/send', auth, async (req, res) => {
   try {
+    console.log('Message request body:', req.body);
+    console.log('User ID:', req.user.id);
+    
     const { recipient, content, subject, jobRelated, messageType, comeInRequest, interviewDate, interviewLocation } = req.body;
     const senderId = req.user.id;
 
     // Validate inputs
     if (!recipient) {
+      console.log('Missing recipient');
       return res.status(400).json({
         status: 'error',
         message: 'Recipient ID is required'
@@ -159,6 +163,7 @@ router.post('/send', auth, async (req, res) => {
     }
 
     if (!content || !content.trim()) {
+      console.log('Missing content');
       return res.status(400).json({
         status: 'error',
         message: 'Message content is required'
@@ -168,6 +173,7 @@ router.post('/send', auth, async (req, res) => {
     // Verify recipient exists
     const recipientUser = await User.findById(recipient);
     if (!recipientUser) {
+      console.log('Recipient not found:', recipient);
       return res.status(404).json({
         status: 'error',
         message: 'Recipient not found'
