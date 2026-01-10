@@ -147,12 +147,11 @@ router.get('/available-users', auth, async (req, res) => {
 // POST /api/messages/send - Send a message
 router.post('/send', auth, async (req, res) => {
   try {
-    const { conversationId, content } = req.body;
+    const { recipient, content, subject, jobRelated, messageType, comeInRequest, interviewDate, interviewLocation } = req.body;
     const senderId = req.user.id;
-    const recipientId = conversationId; // conversationId is the recipient's user ID
 
     // Validate inputs
-    if (!conversationId) {
+    if (!recipient) {
       return res.status(400).json({
         status: 'error',
         message: 'Recipient ID is required'
@@ -167,21 +166,27 @@ router.post('/send', auth, async (req, res) => {
     }
 
     // Verify recipient exists
-    const recipient = await User.findById(recipientId);
-    if (!recipient) {
+    const recipientUser = await User.findById(recipient);
+    if (!recipientUser) {
       return res.status(404).json({
         status: 'error',
         message: 'Recipient not found'
       });
     }
 
-    // Create new message
+    // Create new message with all fields
     const message = new Message({
-      conversationId: recipientId,
+      conversationId: recipient,
       senderId,
-      recipientId,
+      recipientId: recipient,
       content: content.trim(),
-      sent: true
+      sent: true,
+      subject,
+      jobRelated,
+      messageType,
+      comeInRequest,
+      interviewDate: interviewDate ? new Date(interviewDate) : undefined,
+      interviewLocation
     });
 
     await message.save();
@@ -192,13 +197,19 @@ router.post('/send', auth, async (req, res) => {
 
     const messageData = {
       id: message._id,
-      conversationId: recipientId,
+      conversationId: recipient,
       content: message.content,
       senderId: message.senderId._id.toString(),
       recipientId: message.recipientId._id.toString(),
       sent: true,
       time: 'Just now',
-      createdAt: message.createdAt
+      createdAt: message.createdAt,
+      subject,
+      jobRelated,
+      messageType,
+      comeInRequest,
+      interviewDate,
+      interviewLocation
     };
 
     res.json({

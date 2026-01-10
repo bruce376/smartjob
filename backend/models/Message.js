@@ -22,6 +22,32 @@ const messageSchema = new mongoose.Schema({
     trim: true,
     maxlength: 1000
   },
+  subject: {
+    type: String,
+    trim: true,
+    maxlength: 200
+  },
+  jobRelated: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Job'
+  },
+  messageType: {
+    type: String,
+    enum: ['job_inquiry', 'come_in', 'general'],
+    default: 'general'
+  },
+  comeInRequest: {
+    type: Boolean,
+    default: false
+  },
+  interviewDate: {
+    type: Date
+  },
+  interviewLocation: {
+    type: String,
+    trim: true,
+    maxlength: 200
+  },
   sent: {
     type: Boolean,
     default: true
