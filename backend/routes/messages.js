@@ -151,10 +151,27 @@ router.post('/send', auth, async (req, res) => {
     const senderId = req.user.id;
     const recipientId = conversationId; // conversationId is the recipient's user ID
 
+    // Validate inputs
+    if (!conversationId) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Recipient ID is required'
+      });
+    }
+
     if (!content || !content.trim()) {
       return res.status(400).json({
         status: 'error',
         message: 'Message content is required'
+      });
+    }
+
+    // Verify recipient exists
+    const recipient = await User.findById(recipientId);
+    if (!recipient) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Recipient not found'
       });
     }
 
@@ -164,8 +181,7 @@ router.post('/send', auth, async (req, res) => {
       senderId,
       recipientId,
       content: content.trim(),
-      sent: true,
-      time: 'Just now'
+      sent: true
     });
 
     await message.save();
@@ -181,7 +197,8 @@ router.post('/send', auth, async (req, res) => {
       senderId: message.senderId._id.toString(),
       recipientId: message.recipientId._id.toString(),
       sent: true,
-      time: 'Just now'
+      time: 'Just now',
+      createdAt: message.createdAt
     };
 
     res.json({
